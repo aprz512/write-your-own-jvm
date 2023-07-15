@@ -7,11 +7,11 @@ import java.nio.file.Paths;
 public class Classpath {
 
     // for example: java.lang.*
-    private Entry bootStrapClasspath;
+    private final Entry bootStrapClasspath;
     // for example: sun.security.util.CurveDB
-    private Entry extensionClasspath;
+    private final Entry extensionClasspath;
     // for example: your project java class
-    private Entry appClasspath;
+    private final Entry appClasspath;
 
     public Classpath(String jreOption, String cpOption) {
         bootStrapClasspath = parseBootStrapClasspath(jreOption);
