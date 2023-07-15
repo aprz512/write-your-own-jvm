@@ -46,6 +46,10 @@ public class Cmd {
             }
             String cp = commandLine.getOptionValue("cp");
             String[] leftArgs = commandLine.getArgs();
+            if (leftArgs.length == 0) {
+                printHelp();
+                System.exit(0);
+            }
             return new Cmd(cp, leftArgs[0], Arrays.asList(leftArgs).subList(1, leftArgs.length));
         } catch (ParseException e) {
             e.printStackTrace();
