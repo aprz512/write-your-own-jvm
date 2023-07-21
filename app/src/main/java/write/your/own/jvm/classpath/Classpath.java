@@ -29,7 +29,7 @@ public class Classpath {
      * @return jre directory
      */
     private static String getJreDir(String jreOption) {
-        if (jreOption != null && Files.exists(Paths.get(jreOption))) {
+        if (jreOption != null && !("".equals(jreOption)) && Files.exists(Paths.get(jreOption))) {
             return jreOption;
         }
         if (Files.exists(Paths.get("./jre"))) {

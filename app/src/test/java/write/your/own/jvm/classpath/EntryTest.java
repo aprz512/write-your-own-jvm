@@ -10,11 +10,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class EntryTest {
 
-//    @Test
-//    public void test() {
+    @Test
+    public void test() {
+//        int testValue = Integer.valueOf("7FFFFFFF", 16);
 //        String javaHome = System.getProperty("java.home");
 //        String javaHome2 = System.getenv("JAVA_HOME");
-//    }
+    }
 
     @Test
     public void create() {

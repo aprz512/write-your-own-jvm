@@ -3,10 +3,59 @@
  */
 package write.your.own.jvm;
 
+import write.your.own.jvm.classfile.ClassFile;
+import write.your.own.jvm.classfile.MemberInfo;
+import write.your.own.jvm.classfile.constantpool.ConstantInfo;
+import write.your.own.jvm.classfile.constantpool.ConstantPool;
+import write.your.own.jvm.classpath.Classpath;
+import write.your.own.jvm.util.Log;
+
 public class Main {
     public static void main(String[] args) {
         Cmd cmd = Cmd.parseArgs(args);
         printArgs(cmd);
+        startJvm(cmd);
+    }
+
+    private static void startJvm(Cmd cmd) {
+        Classpath classpath = new Classpath("", cmd.getClasspath());
+        String className = cmd.getMainClass().replace(".", "/");
+        try {
+            byte[] classBytes = classpath.readClass(className);
+            ClassFile classFile = new ClassFile(classBytes);
+            printClassInfo(classFile);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void printClassInfo(ClassFile classFile) {
+        Log.o("version: " + classFile.getMajorVersion() + "." + classFile.getMinorVersion());
+
+        ConstantPool constantPool = classFile.getConstantPool();
+        ConstantInfo[] constantInfos = constantPool.getConstantInfos();
+        Log.o("constants count: " + constantPool.getSize());
+        for (int i = 1; i < constantPool.getSize(); i++) {
+            if (constantInfos[i] != null) {
+                Log.o(i + ": " + constantInfos[i]);
+            }
+        }
+
+        Log.o("access flags: 0x" + classFile.getAccessFlag());
+        Log.o("this class: " + constantPool.getUTF8(classFile.getThisClassIndex()));
+        Log.o("super class: " + constantPool.getUTF8(classFile.getSuperClassIndex()));
+        Log.o("interfaces: " + classFile.getInterfaceIndexes().length);
+        MemberInfo[] fields = classFile.getFields();
+        Log.o("fields count: " + fields.length);
+        for (MemberInfo memberInfo : fields) {
+            Log.o("  " +  constantPool.getUTF8(memberInfo.getNameIndex()));
+        }
+
+        MemberInfo[] methods = classFile.getMethods();
+        Log.o("methods count: " + methods.length);
+        for (MemberInfo memberInfo : methods) {
+            Log.o("  " + constantPool.getUTF8(memberInfo.getNameIndex()));
+        }
     }
 
     private static void printArgs(Cmd cmd) {

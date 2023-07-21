@@ -1,11 +1,10 @@
 package write.your.own.jvm;
 
-
 import org.apache.commons.cli.*;
+import write.your.own.jvm.util.Log;
 
 import java.util.Arrays;
 import java.util.List;
-
 
 public class Cmd {
     private final String classpath;
@@ -59,20 +58,20 @@ public class Cmd {
     }
 
     private static void printClasspath(String classpath) {
-        Log.d("classpath: " + classpath);
+        Log.o("classpath: " + classpath);
     }
 
     private static void printVersion() {
-        Log.d("version: 0.1.0");
+        Log.o("version: 0.1.0");
     }
 
     private static void printHelp() {
-        Log.d("usage: <mc> [args] [-options]");
-        Log.d("mc: main class name");
-        Log.d("args: main class args");
-        Log.d(" -h      usage help");
-        Log.d(" -v      current version");
-        Log.d(" -cp     class path which need to load");
+        Log.o("usage: <mc> [args] [-options]");
+        Log.o("mc: main class name");
+        Log.o("args: main class args");
+        Log.o(" -h      usage help");
+        Log.o(" -v      current version");
+        Log.o(" -cp     class path which need to load");
     }
 
     public String getClasspath() {
