@@ -1,7 +1,7 @@
 package write.your.own.jvm.classfile.constantpool;
 
-import write.your.own.jvm.exception.NotImplementedException;
 import write.your.own.jvm.classfile.ClassReader;
+import write.your.own.jvm.exception.NotImplementedException;
 
 import static write.your.own.jvm.classfile.constantpool.ConstantInfo.*;
 

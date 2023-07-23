@@ -4,7 +4,7 @@ import write.your.own.jvm.classfile.ClassReader;
 
 public class ConstantDoubleInfo implements ConstantInfo {
 
-    private final Double value;
+    private final double value;
 
     public ConstantDoubleInfo(ClassReader reader) {
         value = reader.nextU8ToDouble();
@@ -18,5 +18,9 @@ public class ConstantDoubleInfo implements ConstantInfo {
     @Override
     public String toString() {
         return "Double: " + value;
+    }
+
+    public double getDoubleValue() {
+        return value;
     }
 }

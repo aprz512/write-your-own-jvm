@@ -1,10 +1,7 @@
 package write.your.own.jvm.classfile.attribute;
 
-import write.your.own.jvm.exception.NotImplementedException;
 import write.your.own.jvm.classfile.ClassReader;
 import write.your.own.jvm.classfile.constantpool.ConstantPool;
-
-import javax.xml.transform.Source;
 
 public class AttributeInfoFactory {
 

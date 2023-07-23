@@ -4,6 +4,7 @@ import write.your.own.jvm.util.NumUtil;
 
 /**
  * 操作数栈
+ * 操作数栈和局部变量表只存放数据的值，并不记录数据类型。
  */
 public class OperandStack {
     private final Slot[] slots;

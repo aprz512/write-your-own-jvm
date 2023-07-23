@@ -4,7 +4,7 @@ import write.your.own.jvm.classfile.ClassReader;
 
 public class ConstantIntegerInfo implements ConstantInfo {
 
-    private final Integer value;
+    private final int value;
 
     public ConstantIntegerInfo(ClassReader reader) {
         value = reader.nextU4ToInt();
@@ -18,5 +18,9 @@ public class ConstantIntegerInfo implements ConstantInfo {
     @Override
     public String toString() {
         return "Integer: " + value;
+    }
+
+    public int getIntValue() {
+        return value;
     }
 }

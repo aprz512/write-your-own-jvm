@@ -48,7 +48,7 @@ public class Main {
         MemberInfo[] fields = classFile.getFields();
         Log.o("fields count: " + fields.length);
         for (MemberInfo memberInfo : fields) {
-            Log.o("  " +  constantPool.getUTF8(memberInfo.getNameIndex()));
+            Log.o("  " + constantPool.getUTF8(memberInfo.getNameIndex()));
         }
 
         MemberInfo[] methods = classFile.getMethods();

@@ -10,11 +10,19 @@ public class NumUtil {
     }
 
     public static int getLow(long val) {
-        return  (int) (val & 0xFFFFFFFFL);
+        return (int) (val & 0xFFFFFFFFL);
     }
 
     public static int getHigh(long val) {
         return (int) (val >> 32);
+    }
+
+    public static int byteToSignedInt(byte value) {
+        return (int) value;
+    }
+
+    public static int byteToUnsignedInt(byte value) {
+        return value & 0xFF;
     }
 
 }

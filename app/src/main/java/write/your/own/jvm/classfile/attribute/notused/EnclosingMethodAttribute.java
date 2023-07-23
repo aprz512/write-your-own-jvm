@@ -5,13 +5,13 @@ import write.your.own.jvm.classfile.attribute.AttributeInfo;
 
 /**
  * EnclosingMethod_attribute {
- *     u2 attribute_name_index;
- *     u4 attribute_length;
- *     u2 class_index;
- *     u2 method_index;
+ * u2 attribute_name_index;
+ * u4 attribute_length;
+ * u2 class_index;
+ * u2 method_index;
  * }
  */
-public class EnclosingMethodAttribute  extends AttributeInfo {
+public class EnclosingMethodAttribute extends AttributeInfo {
 
     private final int classIndex;
     private final int methodIndex;

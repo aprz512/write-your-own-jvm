@@ -4,7 +4,7 @@ import write.your.own.jvm.classfile.ClassReader;
 
 public class ConstantFloatInfo implements ConstantInfo {
 
-    private final Float value;
+    private final float value;
 
     public ConstantFloatInfo(ClassReader reader) {
         value = reader.nextU4ToFloat();
@@ -19,4 +19,9 @@ public class ConstantFloatInfo implements ConstantInfo {
     public String toString() {
         return "Float: " + value;
     }
+
+    public float getFloatValue() {
+        return value;
+    }
+
 }

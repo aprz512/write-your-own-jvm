@@ -2,34 +2,32 @@ package write.your.own.jvm.classfile;
 
 import write.your.own.jvm.classfile.attribute.AttributeInfo;
 import write.your.own.jvm.classfile.constantpool.ConstantPool;
-import write.your.own.jvm.util.Log;
 
 /**
  * method_info {
- *     u2             access_flags;
- *     u2             name_index;
- *     u2             descriptor_index;
- *     u2             attributes_count;
- *     attribute_info attributes[attributes_count];
+ * u2             access_flags;
+ * u2             name_index;
+ * u2             descriptor_index;
+ * u2             attributes_count;
+ * attribute_info attributes[attributes_count];
  * }
- *
+ * <p>
  * field_info {
- *     u2             access_flags;
- *     u2             name_index;
- *     u2             descriptor_index;
- *     u2             attributes_count;
- *     attribute_info attributes[attributes_count];
+ * u2             access_flags;
+ * u2             name_index;
+ * u2             descriptor_index;
+ * u2             attributes_count;
+ * attribute_info attributes[attributes_count];
  * }
  */
 public class MemberInfo {
-
-    private ConstantPool constantPool;
 
     private final int accessFlags;
     private final int nameIndex;
     private final int descriptorIndex;
     private final int attributesCount;
     private final AttributeInfo[] attributes;
+    private ConstantPool constantPool;
 
     public MemberInfo(ConstantPool constantPool, ClassReader reader) {
         this.constantPool = constantPool;

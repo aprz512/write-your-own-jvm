@@ -6,18 +6,19 @@ import write.your.own.jvm.classfile.attribute.annotation.Annotation;
 
 /**
  * RuntimeVisibleParameterAnnotations_attribute {
- *     u2 attribute_name_index;
- *     u4 attribute_length;
- *     u1 num_parameters;
- *     {   u2         num_annotations;
- *         annotation annotations[num_annotations];
- *     } parameter_annotations[num_parameters];
+ * u2 attribute_name_index;
+ * u4 attribute_length;
+ * u1 num_parameters;
+ * {   u2         num_annotations;
+ * annotation annotations[num_annotations];
+ * } parameter_annotations[num_parameters];
  * }
  */
 public class RuntimeVisibleParameterAnnotationsAttribute extends AttributeInfo {
 
     public final int numParameters;
     public final ParameterAnnotation[] parameterAnnotations;
+
     public RuntimeVisibleParameterAnnotationsAttribute(int attributeNameIndex, int attributeLength, ClassReader reader) {
         super(attributeNameIndex, attributeLength);
         numParameters = reader.nextU1toInt();

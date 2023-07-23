@@ -6,10 +6,10 @@ import write.your.own.jvm.classfile.attribute.notused.stackmapframe.StackMapFram
 
 /**
  * StackMapTable_attribute {
- *     u2              attribute_name_index;
- *     u4              attribute_length;
- *     u2              number_of_entries;
- *     stack_map_frame entries[number_of_entries];
+ * u2              attribute_name_index;
+ * u4              attribute_length;
+ * u2              number_of_entries;
+ * stack_map_frame entries[number_of_entries];
  * }
  * 该属性不包含运行时所需的信息，仅用作 Class 文件的类型检验。
  * just read and ignore

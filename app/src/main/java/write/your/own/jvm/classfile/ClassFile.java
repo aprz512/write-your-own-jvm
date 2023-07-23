@@ -8,6 +8,7 @@ import write.your.own.jvm.classfile.constantpool.ConstantPool;
  * <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html">Chapter 4. The class File Format</a>
  */
 public class ClassFile {
+    private final ClassReader reader;
     // The magic item supplies the magic number identifying the class file format; it has the value 0xCAFEBABE.
     // we use signed int to present this value in java
     private int magic;
@@ -33,7 +34,6 @@ public class ClassFile {
     // Signature (§4.7.9), SourceFile (§4.7.10), SourceDebugExtension (§4.7.11), Deprecated (§4.7.15),
     // RuntimeVisibleAnnotations (§4.7.16), RuntimeInvisibleAnnotations (§4.7.17), and BootstrapMethods (§4.7.21)
     private AttributeInfo[] attributes;
-    private final ClassReader reader;
 
 
     public ClassFile(byte[] classData) {
@@ -94,7 +94,7 @@ public class ClassFile {
     private void readAndCheckVersion() {
         minorVersion = reader.nextU2ToInt();
         majorVersion = reader.nextU2ToInt();
-        if(majorVersion == 45) {
+        if (majorVersion == 45) {
             return;
         }
         if (majorVersion >= 46 && majorVersion <= 52 && minorVersion == 0) {

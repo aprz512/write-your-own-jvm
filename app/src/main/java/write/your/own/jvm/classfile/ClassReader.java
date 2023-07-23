@@ -84,6 +84,7 @@ public class ClassReader {
     /**
      * read u2 table
      * |- u2 count -|- u2 -|- u2 -| ... |
+     *
      * @return 先读一个 u2 的值，为 x，再读 x 个 u2 的值
      */
     public int[] nextU2s() {
