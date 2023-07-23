@@ -44,6 +44,18 @@ public class CodeAttribute extends AttributeInfo {
         this.attributes = AttributeInfo.readAttributes(reader, constantPool, attributesCount);
     }
 
+    public int getMaxLocals() {
+        return maxLocals;
+    }
+
+    public int getMaxStack() {
+        return maxStack;
+    }
+
+    public byte[] getCode() {
+        return code;
+    }
+
     private static class ExceptionTable {
         public final int startPc;
         public final int endPc;

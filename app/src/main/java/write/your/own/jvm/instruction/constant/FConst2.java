@@ -1,12 +1,12 @@
 package write.your.own.jvm.instruction.constant;
 
-import write.your.own.jvm.instruction.base.NoOperandInstruction;
+import write.your.own.jvm.instruction.Instruction;
 import write.your.own.jvm.runtimedata.StackFrame;
 
 /**
  * Push the float constant (2.0) onto the operand stack.
  */
-public class FConst2 extends NoOperandInstruction {
+public class FConst2 implements Instruction {
     @Override
     public int getOpCode() {
         return 0x0D;

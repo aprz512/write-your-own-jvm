@@ -1,6 +1,6 @@
 package write.your.own.jvm.instruction.load;
 
-import write.your.own.jvm.instruction.base.NoOperandInstruction;
+import write.your.own.jvm.instruction.Instruction;
 import write.your.own.jvm.runtimedata.StackFrame;
 
 /**
@@ -8,7 +8,7 @@ import write.your.own.jvm.runtimedata.StackFrame;
  * The local variable at <n> must contain a float.
  * The value of the local variable at <n> is pushed onto the operand stack.
  */
-public class FLoad3 extends NoOperandInstruction {
+public class FLoad3 implements Instruction {
 
     @Override
     public int getOpCode() {

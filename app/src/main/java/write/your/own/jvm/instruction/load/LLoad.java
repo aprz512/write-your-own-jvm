@@ -1,9 +1,8 @@
 package write.your.own.jvm.instruction.load;
 
 import write.your.own.jvm.instruction.CodeReader;
-import write.your.own.jvm.instruction.base.IndexByte1OperandInstruction;
+import write.your.own.jvm.instruction.base.Operand1Instruction;
 import write.your.own.jvm.runtimedata.StackFrame;
-import write.your.own.jvm.util.NumUtil;
 
 /**
  * The index is an unsigned byte.
@@ -11,10 +10,15 @@ import write.your.own.jvm.util.NumUtil;
  * The local variable at index must contain a long.
  * The value of the local variable at index is pushed onto the operand stack.
  */
-public class LLoad extends IndexByte1OperandInstruction {
+public class LLoad extends Operand1Instruction {
 
     public LLoad(CodeReader reader) {
         super(reader);
+    }
+
+    @Override
+    protected int readOperand(CodeReader reader) {
+        return reader.readUnsignedByte();
     }
 
     @Override
@@ -24,8 +28,7 @@ public class LLoad extends IndexByte1OperandInstruction {
 
     @Override
     public void execute(StackFrame frame) {
-        int index = NumUtil.byteToUnsignedInt(indexByte);
-        long value = frame.getLocalVars().getLong(index);
+        long value = frame.getLocalVars().getLong(operand);
         frame.getOperandStack().pushLong(value);
     }
 

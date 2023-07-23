@@ -1,6 +1,6 @@
 package write.your.own.jvm.instruction.load;
 
-import write.your.own.jvm.instruction.base.NoOperandInstruction;
+import write.your.own.jvm.instruction.Instruction;
 import write.your.own.jvm.runtimedata.StackFrame;
 
 /**
@@ -9,7 +9,7 @@ import write.your.own.jvm.runtimedata.StackFrame;
  * The local variable at index must contain a long.
  * The value of the local variable at index is pushed onto the operand stack.
  */
-public class LLoad0 extends NoOperandInstruction {
+public class LLoad0 implements Instruction {
 
     @Override
     public int getOpCode() {

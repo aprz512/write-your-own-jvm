@@ -1,12 +1,18 @@
 package write.your.own.jvm;
 
 public class Test {
-    public void test(int a) {
-        if (a > 100) {
-            return;
-        } else {
-            a = a * 3;
+    public static void main(String[] args) {
+        int sum = 0;
+        for (int i = 1; i <= 100; i++) {
+            sum += i;
         }
-        String x = "test";
+        System.out.println(sum);
+    }
+
+    public void test(int a) {
+        int b = 10;
+        int c = 20;
+        float x = 30;
+        double d = 40;
     }
 }

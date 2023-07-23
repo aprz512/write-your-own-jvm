@@ -1,9 +1,8 @@
 package write.your.own.jvm.instruction.load;
 
 import write.your.own.jvm.instruction.CodeReader;
-import write.your.own.jvm.instruction.base.IndexByte1OperandInstruction;
+import write.your.own.jvm.instruction.base.Operand1Instruction;
 import write.your.own.jvm.runtimedata.StackFrame;
-import write.your.own.jvm.util.NumUtil;
 
 /**
  * The index is an unsigned byte.
@@ -11,21 +10,25 @@ import write.your.own.jvm.util.NumUtil;
  * The local variable at index must contain a double.
  * The value of the local variable at index is pushed onto the operand stack.
  */
-public class DLoad extends IndexByte1OperandInstruction {
+public class DLoad extends Operand1Instruction {
 
     public DLoad(CodeReader reader) {
         super(reader);
     }
 
     @Override
+    protected int readOperand(CodeReader reader) {
+        return reader.readUnsignedByte();
+    }
+
+    @Override
     public int getOpCode() {
-        return 0x24;
+        return 0x18;
     }
 
     @Override
     public void execute(StackFrame frame) {
-        int index = NumUtil.byteToUnsignedInt(indexByte);
-        double value = frame.getLocalVars().getDouble(index);
+        double value = frame.getLocalVars().getDouble(operand);
         frame.getOperandStack().pushDouble(value);
     }
 

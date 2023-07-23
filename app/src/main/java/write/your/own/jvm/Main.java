@@ -23,10 +23,24 @@ public class Main {
         try {
             byte[] classBytes = classpath.readClass(className);
             ClassFile classFile = new ClassFile(classBytes);
-            printClassInfo(classFile);
+            MemberInfo main = getMethod(classFile, "main", "([Ljava/lang/String;)V");
+            Interpreter interpreter = new Interpreter();
+            interpreter.interpret(main);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static MemberInfo getMethod(ClassFile classFile, String name, String des) {
+        MemberInfo[] methods = classFile.getMethods();
+        for (MemberInfo method : methods) {
+            if (method.getName().equals(name)
+                    && method.getDescriptor().equals(des)) {
+                return method;
+            }
+        }
+
+        return null;
     }
 
     private static void printClassInfo(ClassFile classFile) {

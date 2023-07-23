@@ -6,7 +6,7 @@ public class MyThread {
     // if stackFrame bigger than maxStackFrame, we throw StackOverFlowException
     private final int maxStackFrame = 1024;
     private int pc;
-    private Stack<StackFrame> stack;
+    private final Stack<StackFrame> stack = new Stack<>();
 
     public void pushStackFrame(StackFrame frame) {
         if (stack.size() >= 100) {
@@ -15,11 +15,11 @@ public class MyThread {
         stack.push(frame);
     }
 
-    public void popStackFrame() {
+    public StackFrame popStackFrame() {
         if (stack.size() == 0) {
             throw new IllegalStateException("no method in stack!!!");
         }
-        stack.pop();
+        return stack.pop();
     }
 
     public StackFrame currentStackFrame() {
@@ -27,6 +27,18 @@ public class MyThread {
             throw new IllegalStateException("no method in stack!!!");
         }
         return stack.peek();
+    }
+
+    public int getPc() {
+        return pc;
+    }
+
+    public void setPc(int pc) {
+        this.pc = pc;
+    }
+
+    public StackFrame newStackFrame(int maxLocals, int maxStack) {
+        return new StackFrame(this, maxLocals, maxStack);
     }
 }
 

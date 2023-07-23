@@ -1,12 +1,12 @@
 package write.your.own.jvm.instruction.constant;
 
-import write.your.own.jvm.instruction.base.NoOperandInstruction;
+import write.your.own.jvm.instruction.Instruction;
 import write.your.own.jvm.runtimedata.StackFrame;
 
 /**
  * Push the int constant (4) onto the operand stack.
  */
-public class IConst4 extends NoOperandInstruction {
+public class IConst4 implements Instruction {
     @Override
     public int getOpCode() {
         return 0x7;

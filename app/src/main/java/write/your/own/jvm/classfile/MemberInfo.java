@@ -1,6 +1,7 @@
 package write.your.own.jvm.classfile;
 
 import write.your.own.jvm.classfile.attribute.AttributeInfo;
+import write.your.own.jvm.classfile.attribute.CodeAttribute;
 import write.your.own.jvm.classfile.constantpool.ConstantPool;
 
 /**
@@ -52,5 +53,23 @@ public class MemberInfo {
 
     public int getNameIndex() {
         return nameIndex;
+    }
+
+    public CodeAttribute getCodeAttribute() {
+        for (AttributeInfo info : attributes) {
+            if (info instanceof CodeAttribute) {
+                return (CodeAttribute) info;
+            }
+        }
+
+        return null;
+    }
+
+    public String getName() {
+        return constantPool.getUTF8(nameIndex);
+    }
+
+    public String getDescriptor() {
+        return constantPool.getUTF8(descriptorIndex);
     }
 }

@@ -18,7 +18,7 @@ public class NumUtil {
     }
 
     public static int byteToSignedInt(byte value) {
-        return (int) value;
+        return value;
     }
 
     public static int byteToUnsignedInt(byte value) {

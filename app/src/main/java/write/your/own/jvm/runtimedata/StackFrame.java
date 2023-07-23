@@ -6,8 +6,7 @@ public class StackFrame {
     private LocalVars localVars;
 
     private MyThread thread;
-
-    private int pc;
+    private int nextPc;
 
 
     public StackFrame(MyThread thread, int maxLocals, int maxStack) {
@@ -22,5 +21,17 @@ public class StackFrame {
 
     public LocalVars getLocalVars() {
         return localVars;
+    }
+
+    public MyThread getThread() {
+        return thread;
+    }
+
+    public int getNextPc() {
+        return nextPc;
+    }
+
+    public void setNextPc(int nextPc) {
+        this.nextPc = nextPc;
     }
 }

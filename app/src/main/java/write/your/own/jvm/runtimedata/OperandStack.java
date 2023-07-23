@@ -16,14 +16,14 @@ public class OperandStack {
         slots = new Slot[size];
     }
 
-    private Slot popSlot() {
+    public Slot popSlot() {
         --freeIndex;
         Slot topSlot = slots[freeIndex];
         slots[freeIndex] = null;
         return topSlot;
     }
 
-    private void pushSlot(Slot slot) {
+    public void pushSlot(Slot slot) {
         slots[freeIndex++] = slot;
     }
 
