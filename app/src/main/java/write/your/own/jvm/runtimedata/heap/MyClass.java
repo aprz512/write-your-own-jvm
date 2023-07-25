@@ -211,7 +211,7 @@ public class MyClass {
     public MyMethod getStaticMethod(String name, String descriptor) {
         for (MyMethod method : methods) {
             if (method.isStatic() && method.getName().equals(name)
-            && method.getDescriptor().equals(descriptor)) {
+                    && method.getDescriptor().equals(descriptor)) {
                 return method;
             }
         }

@@ -395,8 +395,8 @@ public class InstructionFactory {
             // 	return &INVOKE_INTERFACE{}
             // case 0xba:
             // 	return &INVOKE_DYNAMIC{}
-             case 0xbb:
-             	return new New(reader);
+            case 0xbb:
+                return new New(reader);
             // case 0xbc:
             // 	return &NEW_ARRAY{}
             // case 0xbd:
@@ -405,10 +405,10 @@ public class InstructionFactory {
             // 	return arraylength
             // case 0xbf:
             // 	return athrow
-             case 0xc0:
-             	return new CheckCast(reader);
-             case 0xc1:
-             	return new InstanceOf(reader);
+            case 0xc0:
+                return new CheckCast(reader);
+            case 0xc1:
+                return new InstanceOf(reader);
             // case 0xc2:
             // 	return monitorenter
             // case 0xc3:

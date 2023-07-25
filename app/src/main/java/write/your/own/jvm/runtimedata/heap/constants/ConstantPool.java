@@ -2,7 +2,6 @@ package write.your.own.jvm.runtimedata.heap.constants;
 
 import write.your.own.jvm.classfile.ClassFile;
 import write.your.own.jvm.classfile.constantpool.*;
-import write.your.own.jvm.exception.NotImplementedException;
 import write.your.own.jvm.runtimedata.heap.MyClass;
 
 /**

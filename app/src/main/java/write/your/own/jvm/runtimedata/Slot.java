@@ -21,15 +21,15 @@ public class Slot {
         return value;
     }
 
+    public void setValue(int value) {
+        this.value = value;
+    }
+
     public MyObject getRef() {
         return ref;
     }
 
     public void setRef(MyObject ref) {
         this.ref = ref;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
     }
 }

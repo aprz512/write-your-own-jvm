@@ -1,7 +1,5 @@
 package write.your.own.jvm;
 
-import write.your.own.jvm.classfile.MemberInfo;
-import write.your.own.jvm.classfile.attribute.CodeAttribute;
 import write.your.own.jvm.instruction.CodeReader;
 import write.your.own.jvm.instruction.Instruction;
 import write.your.own.jvm.instruction.InstructionFactory;

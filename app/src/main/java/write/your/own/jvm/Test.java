@@ -4,6 +4,7 @@ public class Test {
 
     public static int staticVar;
     public int instanceVar;
+
     public static void main(String[] args) {
         int x = 32768; // ldc
         Test myObj = new Test(); // new

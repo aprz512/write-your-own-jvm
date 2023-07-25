@@ -13,7 +13,7 @@ public class LocalVariableTable {
 
     public LocalVariableTable(int slotSize) {
         slots = new Slot[slotSize];
-        for (int i = 0; i <slotSize; i++) {
+        for (int i = 0; i < slotSize; i++) {
             slots[i] = new Slot(null);
         }
     }
