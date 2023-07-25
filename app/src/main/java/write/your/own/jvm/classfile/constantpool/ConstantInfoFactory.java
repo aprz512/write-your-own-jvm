@@ -35,7 +35,7 @@ public class ConstantInfoFactory {
             case CONST_TAG_FIELD_REF:
             case CONST_TAG_METHOD_REF:
             case CONST_TAG_INTERFACE_METHOD_REF:
-                return new ConstantMemberRefInfo(constPool, reader);
+                return new ConstantMemberRefInfo(constPool, reader, tag);
 
             // 是Java SE 7才添加到class文件中的，目的是支持新增的 invokedynamic 指令
             // 暂不处理

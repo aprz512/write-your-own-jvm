@@ -28,7 +28,7 @@ public class ILoad extends Operand1Instruction {
 
     @Override
     public void execute(StackFrame frame) {
-        int local = frame.getLocalVars().getInt(operand);
+        int local = frame.getLocalVariableTable().getInt(operand);
         frame.getOperandStack().pushInt(local);
     }
 

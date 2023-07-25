@@ -157,4 +157,22 @@ public class ClassFile {
         return attributes;
     }
 
+    public String getThisClassName() {
+        return constantPool.getClassName(thisClassIndex);
+    }
+
+    public String getSuperClassName() {
+        if (superClassIndex <= 0) {
+            return "";
+        }
+        return constantPool.getClassName(superClassIndex);
+    }
+
+    public String[] getInterfaceNames() {
+        String[] result = new String[interfaceIndexes.length];
+        for (int i = 0; i < interfaceIndexes.length; i++) {
+            result[i] = constantPool.getUtf8(interfaceIndexes[i]);
+        }
+        return result;
+    }
 }

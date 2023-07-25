@@ -2,8 +2,8 @@ package write.your.own.jvm.instruction.store;
 
 import write.your.own.jvm.instruction.CodeReader;
 import write.your.own.jvm.instruction.base.Operand1Instruction;
-import write.your.own.jvm.runtimedata.ObjRef;
 import write.your.own.jvm.runtimedata.StackFrame;
+import write.your.own.jvm.runtimedata.heap.MyObject;
 
 /**
  * The index is an unsigned byte that must be an index into the local variable array of the current frame (§2.6).
@@ -28,8 +28,8 @@ public class AStore extends Operand1Instruction {
 
     @Override
     public void execute(StackFrame frame) {
-        ObjRef ref = frame.getOperandStack().popRef();
-        frame.getLocalVars().setRef(operand, ref);
+        MyObject ref = frame.getOperandStack().popRef();
+        frame.getLocalVariableTable().setRef(operand, ref);
     }
 
     @Override

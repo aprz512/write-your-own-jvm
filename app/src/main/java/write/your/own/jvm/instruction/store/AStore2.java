@@ -1,8 +1,8 @@
 package write.your.own.jvm.instruction.store;
 
 import write.your.own.jvm.instruction.Instruction;
-import write.your.own.jvm.runtimedata.ObjRef;
 import write.your.own.jvm.runtimedata.StackFrame;
+import write.your.own.jvm.runtimedata.heap.MyObject;
 
 /**
  * The <n> must be an index into the local variable array of the current frame (§2.6).
@@ -18,8 +18,8 @@ public class AStore2 implements Instruction {
 
     @Override
     public void execute(StackFrame frame) {
-        ObjRef ref = frame.getOperandStack().popRef();
-        frame.getLocalVars().setRef(2, ref);
+        MyObject ref = frame.getOperandStack().popRef();
+        frame.getLocalVariableTable().setRef(2, ref);
     }
 
     @Override

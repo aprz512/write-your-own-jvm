@@ -18,7 +18,7 @@ public class IStore0 implements Instruction {
     @Override
     public void execute(StackFrame frame) {
         int value = frame.getOperandStack().popInt();
-        frame.getLocalVars().setInt(0, value);
+        frame.getLocalVariableTable().setInt(0, value);
     }
 
     @Override

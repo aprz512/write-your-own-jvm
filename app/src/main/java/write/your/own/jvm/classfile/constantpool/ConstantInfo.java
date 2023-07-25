@@ -35,6 +35,8 @@ public interface ConstantInfo {
 
     // only part types implement this method
     // should be carefully
-    String getValue();
+//    String getValue();
+
+    int getTag();
 
 }

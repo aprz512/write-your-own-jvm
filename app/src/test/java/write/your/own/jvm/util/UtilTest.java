@@ -25,4 +25,10 @@ public class UtilTest {
         System.out.println(b);
     }
 
+    @Test
+    public void testCast() {
+        Object x = 2;
+        assertEquals(2, (int)x);
+    }
+
 }

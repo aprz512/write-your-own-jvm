@@ -19,7 +19,7 @@ public class DStore0 implements Instruction {
     @Override
     public void execute(StackFrame frame) {
         double value = frame.getOperandStack().popDouble();
-        frame.getLocalVars().setDouble(0, value);
+        frame.getLocalVariableTable().setDouble(0, value);
     }
 
     @Override

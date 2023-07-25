@@ -10,10 +10,10 @@ public class ConstantFloatInfo implements ConstantInfo {
         value = reader.nextU4ToFloat();
     }
 
-    @Override
-    public String getValue() {
-        return String.valueOf(value);
-    }
+//    @Override
+//    public String getValue() {
+//        return String.valueOf(value);
+//    }
 
     @Override
     public String toString() {
@@ -22,6 +22,10 @@ public class ConstantFloatInfo implements ConstantInfo {
 
     public float getFloatValue() {
         return value;
+    }
+
+    public int getTag() {
+        return ConstantInfo.CONST_TAG_FLOAT;
     }
 
 }

@@ -54,13 +54,26 @@ public class ConstantPool {
     /**
      * 这里是一个递归的逻辑：
      * A -> getUTF8 -> B -> getUTF8
-     *
-     * @param index
-     * @return
      */
-    public String getUTF8(int index) {
+    public String getUtf8(int index) {
         ConstantInfo constInfo = this.constantInfos[index];
-        return constInfo.getValue();
+        ConstantUft8Info info = (ConstantUft8Info) constInfo;
+        return info.getUtf8();
+    }
+
+    public String[] getNameAndType(int index) {
+        ConstantInfo constantInfo = constantInfos[index];
+        ConstantNameAndTypeInfo nameAndTypeInfo = (ConstantNameAndTypeInfo) constantInfo;
+        String[] result = new String[2];
+        result[0] = nameAndTypeInfo.getName();
+        result[1] = nameAndTypeInfo.getDescriptor();
+        return result;
+    }
+
+    public String getClassName(int index) {
+        ConstantInfo constInfo = this.constantInfos[index];
+        ConstantClassInfo info = (ConstantClassInfo) constInfo;
+        return info.getName();
     }
 
     // should use deep copy?

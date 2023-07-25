@@ -8,6 +8,8 @@ import write.your.own.jvm.classfile.MemberInfo;
 import write.your.own.jvm.classfile.constantpool.ConstantInfo;
 import write.your.own.jvm.classfile.constantpool.ConstantPool;
 import write.your.own.jvm.classpath.Classpath;
+import write.your.own.jvm.runtimedata.heap.MyClass;
+import write.your.own.jvm.runtimedata.heap.MyClassLoader;
 import write.your.own.jvm.util.Log;
 
 public class Main {
@@ -20,12 +22,11 @@ public class Main {
     private static void startJvm(Cmd cmd) {
         Classpath classpath = new Classpath("", cmd.getClasspath());
         String className = cmd.getMainClass().replace(".", "/");
+        MyClassLoader classLoader = new MyClassLoader(classpath);
         try {
-            byte[] classBytes = classpath.readClass(className);
-            ClassFile classFile = new ClassFile(classBytes);
-            MemberInfo main = getMethod(classFile, "main", "([Ljava/lang/String;)V");
+            MyClass mainClass = classLoader.loadClass(className);
             Interpreter interpreter = new Interpreter();
-            interpreter.interpret(main);
+            interpreter.interpret(mainClass.geMainMethod());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -56,19 +57,19 @@ public class Main {
         }
 
         Log.o("access flags: 0x" + classFile.getAccessFlag());
-        Log.o("this class: " + constantPool.getUTF8(classFile.getThisClassIndex()));
-        Log.o("super class: " + constantPool.getUTF8(classFile.getSuperClassIndex()));
+        Log.o("this class: " + constantPool.getUtf8(classFile.getThisClassIndex()));
+        Log.o("super class: " + constantPool.getUtf8(classFile.getSuperClassIndex()));
         Log.o("interfaces: " + classFile.getInterfaceIndexes().length);
         MemberInfo[] fields = classFile.getFields();
         Log.o("fields count: " + fields.length);
         for (MemberInfo memberInfo : fields) {
-            Log.o("  " + constantPool.getUTF8(memberInfo.getNameIndex()));
+            Log.o("  " + constantPool.getUtf8(memberInfo.getNameIndex()));
         }
 
         MemberInfo[] methods = classFile.getMethods();
         Log.o("methods count: " + methods.length);
         for (MemberInfo memberInfo : methods) {
-            Log.o("  " + constantPool.getUTF8(memberInfo.getNameIndex()));
+            Log.o("  " + constantPool.getUtf8(memberInfo.getNameIndex()));
         }
     }
 

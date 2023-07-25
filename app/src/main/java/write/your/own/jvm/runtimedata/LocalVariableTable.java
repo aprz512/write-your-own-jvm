@@ -1,17 +1,21 @@
 package write.your.own.jvm.runtimedata;
 
+import write.your.own.jvm.runtimedata.heap.MyObject;
 import write.your.own.jvm.util.NumUtil;
 
 /**
  * 局部变量表
  * 操作数栈和局部变量表只存放数据的值，并不记录数据类型。
  */
-public class LocalVars {
+public class LocalVariableTable {
 
     private final Slot[] slots;
 
-    public LocalVars(int slotSize) {
+    public LocalVariableTable(int slotSize) {
         slots = new Slot[slotSize];
+        for (int i = 0; i <slotSize; i++) {
+            slots[i] = new Slot(null);
+        }
     }
 
     public void setInt(int index, int val) {
@@ -24,7 +28,7 @@ public class LocalVars {
 
     public void setFloat(int index, float val) {
         int floatValue = Float.floatToIntBits(val);
-        slots[index] = new Slot(floatValue);
+        slots[index].setValue(floatValue);
     }
 
     public float getFloat(int index) {
@@ -32,11 +36,11 @@ public class LocalVars {
         return Float.intBitsToFloat(floatValue);
     }
 
-    public void setRef(int index, ObjRef ref) {
-        slots[index] = new Slot(ref);
+    public void setRef(int index, MyObject ref) {
+        slots[index].setRef(ref);
     }
 
-    public ObjRef getRef(int index) {
+    public MyObject getRef(int index) {
         return slots[index].getRef();
     }
 

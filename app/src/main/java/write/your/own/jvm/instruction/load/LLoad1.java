@@ -18,7 +18,7 @@ public class LLoad1 implements Instruction {
 
     @Override
     public void execute(StackFrame frame) {
-        long value = frame.getLocalVars().getLong(1);
+        long value = frame.getLocalVariableTable().getLong(1);
         frame.getOperandStack().pushLong(value);
     }
 

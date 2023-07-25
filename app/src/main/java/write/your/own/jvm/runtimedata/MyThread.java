@@ -1,12 +1,14 @@
 package write.your.own.jvm.runtimedata;
 
+import write.your.own.jvm.runtimedata.heap.MyMethod;
+
 import java.util.Stack;
 
 public class MyThread {
     // if stackFrame bigger than maxStackFrame, we throw StackOverFlowException
     private final int maxStackFrame = 1024;
-    private int pc;
     private final Stack<StackFrame> stack = new Stack<>();
+    private int pc;
 
     public void pushStackFrame(StackFrame frame) {
         if (stack.size() >= 100) {
@@ -37,8 +39,9 @@ public class MyThread {
         this.pc = pc;
     }
 
-    public StackFrame newStackFrame(int maxLocals, int maxStack) {
-        return new StackFrame(this, maxLocals, maxStack);
+    public StackFrame newStackFrame(MyMethod method) {
+        return new StackFrame(this, method);
     }
+
 }
 

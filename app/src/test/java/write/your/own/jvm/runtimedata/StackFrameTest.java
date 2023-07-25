@@ -1,6 +1,7 @@
 package write.your.own.jvm.runtimedata;
 
 import org.junit.jupiter.api.Test;
+import write.your.own.jvm.runtimedata.heap.MyObject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,8 +9,8 @@ public class StackFrameTest {
 
     @Test
     public void testLocalVars() {
-        ObjRef ref = new ObjRef();
-        LocalVars vars = new LocalVars(10);
+        MyObject ref = new MyObject();
+        LocalVariableTable vars = new LocalVariableTable(10);
         vars.setInt(0, 100);
         vars.setInt(1, -100);
         vars.setLong(2, 2997924580L);
@@ -30,7 +31,7 @@ public class StackFrameTest {
     @Test
     public void testOperandStack() {
         OperandStack stack = new OperandStack(10);
-        ObjRef ref = new ObjRef();
+        MyObject ref = new MyObject();
         stack.pushInt(100);
         stack.pushInt(-100);
         stack.pushLong(2997924580L);

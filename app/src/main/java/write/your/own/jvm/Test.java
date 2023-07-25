@@ -1,18 +1,24 @@
 package write.your.own.jvm;
 
 public class Test {
+
+    public static int staticVar;
+    public int instanceVar;
     public static void main(String[] args) {
-        int sum = 0;
-        for (int i = 1; i <= 100; i++) {
-            sum += i;
+        int x = 32768; // ldc
+        Test myObj = new Test(); // new
+        Test.staticVar = x; // putstatic
+        x = Test.staticVar; // getstatic
+        myObj.instanceVar = x; // putfield
+        x = myObj.instanceVar; // getfield
+        Object obj = myObj;
+        if (obj instanceof Test) { // instanceof
+            myObj = (Test) obj; // checkcast
+            System.out.println(myObj.instanceVar);
+//            System.setOut();
+//            System.console().printf("instanceVar = %d\n", myObj.instanceVar);
+
         }
-        System.out.println(sum);
     }
 
-    public void test(int a) {
-        int b = 10;
-        int c = 20;
-        float x = 30;
-        double d = 40;
-    }
 }

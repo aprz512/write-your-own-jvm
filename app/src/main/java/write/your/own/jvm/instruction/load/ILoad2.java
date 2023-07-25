@@ -16,7 +16,7 @@ public class ILoad2 implements Instruction {
 
     @Override
     public void execute(StackFrame frame) {
-        int local = frame.getLocalVars().getInt(2);
+        int local = frame.getLocalVariableTable().getInt(2);
         frame.getOperandStack().pushInt(local);
     }
 

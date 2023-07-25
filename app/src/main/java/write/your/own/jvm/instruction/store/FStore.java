@@ -29,7 +29,7 @@ public class FStore extends Operand1Instruction {
     @Override
     public void execute(StackFrame frame) {
         float value = frame.getOperandStack().popFloat();
-        frame.getLocalVars().setFloat(operand, value);
+        frame.getLocalVariableTable().setFloat(operand, value);
     }
 
     @Override

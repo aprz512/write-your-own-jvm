@@ -30,7 +30,7 @@ public class DStore extends Operand1Instruction {
     @Override
     public void execute(StackFrame frame) {
         double value = frame.getOperandStack().popDouble();
-        frame.getLocalVars().setDouble(operand, value);
+        frame.getLocalVariableTable().setDouble(operand, value);
     }
 
     @Override

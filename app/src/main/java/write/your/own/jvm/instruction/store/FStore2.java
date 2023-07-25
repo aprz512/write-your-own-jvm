@@ -19,7 +19,7 @@ public class FStore2 implements Instruction {
     @Override
     public void execute(StackFrame frame) {
         float value = frame.getOperandStack().popFloat();
-        frame.getLocalVars().setFloat(2, value);
+        frame.getLocalVariableTable().setFloat(2, value);
     }
 
     @Override

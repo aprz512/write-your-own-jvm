@@ -18,7 +18,7 @@ public class LStore3 implements Instruction {
     @Override
     public void execute(StackFrame frame) {
         long value = frame.getOperandStack().popLong();
-        frame.getLocalVars().setLong(3, value);
+        frame.getLocalVariableTable().setLong(3, value);
     }
 
     @Override

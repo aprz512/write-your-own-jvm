@@ -27,7 +27,7 @@ public class FLoad extends Operand1Instruction {
 
     @Override
     public void execute(StackFrame frame) {
-        float value = frame.getLocalVars().getFloat(operand);
+        float value = frame.getLocalVariableTable().getFloat(operand);
         frame.getOperandStack().pushFloat(value);
     }
 

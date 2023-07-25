@@ -17,7 +17,7 @@ public class DLoad3 implements Instruction {
 
     @Override
     public void execute(StackFrame frame) {
-        double value = frame.getLocalVars().getDouble(3);
+        double value = frame.getLocalVariableTable().getDouble(3);
         frame.getOperandStack().pushDouble(value);
     }
 

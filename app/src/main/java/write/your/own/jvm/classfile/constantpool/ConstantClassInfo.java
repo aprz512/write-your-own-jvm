@@ -20,15 +20,24 @@ public class ConstantClassInfo implements ConstantInfo {
         this.constPool = constPool;
     }
 
+//    @Override
+//    public String getValue() {
+//        return constPool.getUTF8(nameIndex);
+//    }
+
     @Override
-    public String getValue() {
-        return constPool.getUTF8(nameIndex);
+    public int getTag() {
+        return ConstantInfo.CONST_TAG_CLASS;
+    }
+
+    public String getName() {
+        return constPool.getUtf8(nameIndex);
     }
 
     // just for test
     @Override
     public String toString() {
-        return "ConstantClassInfo{" + getValue() + "}";
+        return "ConstantClassInfo{" + getName() + "}";
     }
 
 }

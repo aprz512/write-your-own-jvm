@@ -29,7 +29,7 @@ public class LStore extends Operand1Instruction {
     @Override
     public void execute(StackFrame frame) {
         long value = frame.getOperandStack().popLong();
-        frame.getLocalVars().setLong(operand, value);
+        frame.getLocalVariableTable().setLong(operand, value);
     }
 
     @Override

@@ -12,13 +12,21 @@ public class ConstantUft8Info implements ConstantInfo {
         this.value = new String(bytes);
     }
 
-    @Override
-    public String getValue() {
-        return value;
-    }
+//    @Override
+//    public String getValue() {
+//        return value;
+//    }
 
     @Override
     public String toString() {
+        return value;
+    }
+
+    public int getTag() {
+        return ConstantInfo.CONST_TAG_UTF8;
+    }
+
+    public String getUtf8() {
         return value;
     }
 }

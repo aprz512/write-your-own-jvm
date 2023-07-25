@@ -28,7 +28,7 @@ public class DLoad extends Operand1Instruction {
 
     @Override
     public void execute(StackFrame frame) {
-        double value = frame.getLocalVars().getDouble(operand);
+        double value = frame.getLocalVariableTable().getDouble(operand);
         frame.getOperandStack().pushDouble(value);
     }
 

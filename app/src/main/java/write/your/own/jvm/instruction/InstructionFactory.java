@@ -13,6 +13,7 @@ import write.your.own.jvm.instruction.extended.IfNull;
 import write.your.own.jvm.instruction.extended.Wide;
 import write.your.own.jvm.instruction.load.*;
 import write.your.own.jvm.instruction.math.*;
+import write.your.own.jvm.instruction.references.*;
 import write.your.own.jvm.instruction.stack.*;
 import write.your.own.jvm.instruction.store.*;
 
@@ -56,12 +57,12 @@ public class InstructionFactory {
                 return new BiPush(reader);
             case 0x11:
                 return new SiPush(reader);
-            // case 0x12:
-            // 	return &LDC{}
-            // case 0x13:
-            // 	return &LDC_W{}
-            // case 0x14:
-            // 	return &LDC2_W{}
+            case 0x12:
+                return new Ldc(reader);
+            case 0x13:
+                return new LdcW(reader);
+            case 0x14:
+                return new Ldc2W(reader);
             case 0x15:
                 return new ILoad(reader);
             case 0x16:
@@ -376,26 +377,26 @@ public class InstructionFactory {
             // 	return areturn
             // case 0xb1:
             // 	return _return
-            //	case 0xb2:
-            //		return &GET_STATIC{}
-            // case 0xb3:
-            // 	return &PUT_STATIC{}
-            // case 0xb4:
-            // 	return &GET_FIELD{}
-            // case 0xb5:
-            // 	return &PUT_FIELD{}
-            //	case 0xb6:
-            //		return &INVOKE_VIRTUAL{}
-            // case 0xb7:
-            // 	return &INVOKE_SPECIAL{}
+            case 0xb2:
+                return new GetStatic(reader);
+            case 0xb3:
+                return new PutStatic(reader);
+            case 0xb4:
+                return new GetField(reader);
+            case 0xb5:
+                return new PutField(reader);
+            case 0xb6:
+                return new InvokeVirtual(reader);
+            case 0xb7:
+                return new InvokeSpecial(reader);
             // case 0xb8:
             // 	return &INVOKE_STATIC{}
             // case 0xb9:
             // 	return &INVOKE_INTERFACE{}
             // case 0xba:
             // 	return &INVOKE_DYNAMIC{}
-            // case 0xbb:
-            // 	return &NEW{}
+             case 0xbb:
+             	return new New(reader);
             // case 0xbc:
             // 	return &NEW_ARRAY{}
             // case 0xbd:
@@ -404,10 +405,10 @@ public class InstructionFactory {
             // 	return arraylength
             // case 0xbf:
             // 	return athrow
-            // case 0xc0:
-            // 	return &CHECK_CAST{}
-            // case 0xc1:
-            // 	return &INSTANCE_OF{}
+             case 0xc0:
+             	return new CheckCast(reader);
+             case 0xc1:
+             	return new InstanceOf(reader);
             // case 0xc2:
             // 	return monitorenter
             // case 0xc3:

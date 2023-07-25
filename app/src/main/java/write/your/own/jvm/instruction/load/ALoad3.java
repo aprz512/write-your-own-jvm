@@ -1,8 +1,8 @@
 package write.your.own.jvm.instruction.load;
 
 import write.your.own.jvm.instruction.Instruction;
-import write.your.own.jvm.runtimedata.ObjRef;
 import write.your.own.jvm.runtimedata.StackFrame;
+import write.your.own.jvm.runtimedata.heap.MyObject;
 
 /**
  * The <n> must be an index into the local variable array of the current frame (§2.6).
@@ -18,7 +18,7 @@ public class ALoad3 implements Instruction {
 
     @Override
     public void execute(StackFrame frame) {
-        ObjRef ref = frame.getLocalVars().getRef(3);
+        MyObject ref = frame.getLocalVariableTable().getRef(3);
         frame.getOperandStack().pushRef(ref);
     }
 

@@ -29,16 +29,19 @@ public class ConstantMemberRefInfo implements ConstantInfo {
     private final int nameAndTypeIndex;
     private final ConstantPool constPool;
 
-    public ConstantMemberRefInfo(ConstantPool constPool, ClassReader reader) {
+    private final int tag;
+
+    public ConstantMemberRefInfo(ConstantPool constPool, ClassReader reader, int tag) {
         this.classIndex = reader.nextU2ToInt();
         this.nameAndTypeIndex = reader.nextU2ToInt();
         this.constPool = constPool;
+        this.tag = tag;
     }
 
-    @Override
-    public String getValue() {
-        return constPool.getUTF8(classIndex) + " " + constPool.getUTF8(nameAndTypeIndex);
-    }
+//    @Override
+//    public String getValue() {
+//        return constPool.getUTF8(classIndex) + " " + constPool.getUTF8(nameAndTypeIndex);
+//    }
 
     @Override
     public String toString() {
@@ -49,6 +52,18 @@ public class ConstantMemberRefInfo implements ConstantInfo {
                 constClassInfo + "  " +
                 nameAndTypeInfo +
                 '}';
+    }
+
+    public int getTag() {
+        return tag;
+    }
+
+    public String getClassName() {
+        return constPool.getClassName(classIndex);
+    }
+
+    public String[] getNameAndDescriptor() {
+        return constPool.getNameAndType(nameAndTypeIndex);
     }
 
 }

@@ -17,7 +17,7 @@ public class FLoad2 implements Instruction {
 
     @Override
     public void execute(StackFrame frame) {
-        float value = frame.getLocalVars().getFloat(2);
+        float value = frame.getLocalVariableTable().getFloat(2);
         frame.getOperandStack().pushFloat(value);
     }
 

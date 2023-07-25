@@ -1,5 +1,6 @@
 package write.your.own.jvm.runtimedata;
 
+import write.your.own.jvm.runtimedata.heap.MyObject;
 import write.your.own.jvm.util.NumUtil;
 
 /**
@@ -69,11 +70,11 @@ public class OperandStack {
         return Double.longBitsToDouble(tmp);
     }
 
-    public void pushRef(ObjRef ref) {
+    public void pushRef(MyObject ref) {
         pushSlot(new Slot(ref));
     }
 
-    public ObjRef popRef() {
+    public MyObject popRef() {
         return popSlot().getRef();
     }
 

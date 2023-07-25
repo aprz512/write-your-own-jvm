@@ -2,6 +2,7 @@ package write.your.own.jvm.classfile;
 
 import write.your.own.jvm.classfile.attribute.AttributeInfo;
 import write.your.own.jvm.classfile.attribute.CodeAttribute;
+import write.your.own.jvm.classfile.attribute.ConstantValueAttribute;
 import write.your.own.jvm.classfile.constantpool.ConstantPool;
 
 /**
@@ -66,10 +67,25 @@ public class MemberInfo {
     }
 
     public String getName() {
-        return constantPool.getUTF8(nameIndex);
+        return constantPool.getUtf8(nameIndex);
     }
 
     public String getDescriptor() {
-        return constantPool.getUTF8(descriptorIndex);
+        return constantPool.getUtf8(descriptorIndex);
     }
+
+    public int getAccessFlags() {
+        return accessFlags;
+    }
+
+    public ConstantValueAttribute getConstantValueAttribute() {
+        for (AttributeInfo info : attributes) {
+            if (info instanceof ConstantValueAttribute) {
+                return (ConstantValueAttribute) info;
+            }
+        }
+
+        return null;
+    }
+
 }

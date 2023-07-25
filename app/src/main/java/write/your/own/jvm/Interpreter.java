@@ -7,20 +7,17 @@ import write.your.own.jvm.instruction.Instruction;
 import write.your.own.jvm.instruction.InstructionFactory;
 import write.your.own.jvm.runtimedata.MyThread;
 import write.your.own.jvm.runtimedata.StackFrame;
+import write.your.own.jvm.runtimedata.heap.MyMethod;
+import write.your.own.jvm.util.Log;
 
 public class Interpreter {
 
-    public void interpret(MemberInfo memberInfo) {
-        CodeAttribute codeAttribute = memberInfo.getCodeAttribute();
-        int maxLocals = codeAttribute.getMaxLocals();
-        int maxStack = codeAttribute.getMaxStack();
-        byte[] code = codeAttribute.getCode();
-
+    public void interpret(MyMethod method) {
         MyThread thread = new MyThread();
-        StackFrame stackFrame = thread.newStackFrame(maxLocals, maxStack);
+        StackFrame stackFrame = thread.newStackFrame(method);
         thread.pushStackFrame(stackFrame);
 
-        loop(thread, code);
+        loop(thread, method.getCode());
     }
 
     public void loop(MyThread thread, byte[] code) {
@@ -33,6 +30,8 @@ public class Interpreter {
             codeReader.reset(code, pc);
             int opCode = codeReader.readUnsignedByte();
             Instruction instruction = InstructionFactory.create(opCode, codeReader);
+
+            Log.d("pc = " + pc + ", inst = " + instruction.getReadableName());
 
             frame.setNextPc(codeReader.getPc());
             instruction.execute(frame);

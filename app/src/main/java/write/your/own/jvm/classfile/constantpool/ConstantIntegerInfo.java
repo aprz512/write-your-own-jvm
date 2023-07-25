@@ -10,10 +10,10 @@ public class ConstantIntegerInfo implements ConstantInfo {
         value = reader.nextU4ToInt();
     }
 
-    @Override
-    public String getValue() {
-        return String.valueOf(value);
-    }
+//    @Override
+//    public String getValue() {
+//        return String.valueOf(value);
+//    }
 
     @Override
     public String toString() {
@@ -22,5 +22,9 @@ public class ConstantIntegerInfo implements ConstantInfo {
 
     public int getIntValue() {
         return value;
+    }
+
+    public int getTag() {
+        return ConstantInfo.CONST_TAG_INTEGER;
     }
 }

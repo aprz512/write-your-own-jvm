@@ -30,9 +30,9 @@ public class IInc extends Operand2Instruction {
 
     @Override
     public void execute(StackFrame frame) {
-        int value = frame.getLocalVars().getInt(op1);
+        int value = frame.getLocalVariableTable().getInt(op1);
         value += op2;
-        frame.getLocalVars().setInt(op1, value);
+        frame.getLocalVariableTable().setInt(op1, value);
     }
 
     @Override

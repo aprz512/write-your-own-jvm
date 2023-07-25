@@ -36,7 +36,7 @@ public class AttributeInfoFactory {
             case "Code":
                 return new CodeAttribute(attrNameIndex, attrLength, reader, constantPool);
             case "ConstantValue":
-                return new ConstantValueAttribute(attrNameIndex, attrLength, reader);
+                return new ConstantValueAttribute(attrNameIndex, attrLength, reader, constantPool);
             case "Exceptions":
                 return new ExceptionsAttribute(attrNameIndex, attrLength, reader);
             case "Synthetic":
