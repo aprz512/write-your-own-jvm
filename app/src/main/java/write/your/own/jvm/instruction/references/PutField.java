@@ -80,7 +80,7 @@ public class PutField extends Operand1Instruction {
         ConstantPool constantPool = myMethod.getMyClass().getConstantPool();
         ConstantPool.Constant constant = constantPool.getConstant(operand);
         FieldRef fieldRef = (FieldRef) constant.value;
-        MyField field = fieldRef.resolvedField();
+        MyField field = fieldRef.getResolvedField();
         MyClass fieldClass = field.getMyClass();
         if (field.isStatic()) {
             throw new MyJvmException("java.lang.IncompatibleClassChangeError");

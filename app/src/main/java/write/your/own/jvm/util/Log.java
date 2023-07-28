@@ -9,6 +9,10 @@ public class Log {
         System.out.println(message);
     }
 
+    public static void e(String message) {
+        System.out.println("error: " + message);
+    }
+
     public static void o(String message) {
         System.out.println(message);
     }

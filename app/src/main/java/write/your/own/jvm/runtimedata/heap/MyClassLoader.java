@@ -1,10 +1,12 @@
 package write.your.own.jvm.runtimedata.heap;
 
+import write.your.own.jvm.Cmd;
 import write.your.own.jvm.classfile.ClassFile;
 import write.your.own.jvm.classpath.Classpath;
 import write.your.own.jvm.exception.NotImplementedException;
 import write.your.own.jvm.runtimedata.LocalVariableTable;
 import write.your.own.jvm.runtimedata.heap.constants.ConstantPool;
+import write.your.own.jvm.util.Log;
 
 import java.util.HashMap;
 
@@ -32,6 +34,9 @@ public class MyClassLoader {
         byte[] data = readClass(name);
         MyClass myClass = defineClass(data, name);
         link(myClass);
+        if (Cmd.Config.verboseClassFlag) {
+            Log.d("Load class: " + name);
+        }
         return myClass;
     }
 

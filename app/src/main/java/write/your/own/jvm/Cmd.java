@@ -7,14 +7,20 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Cmd {
+
+    private final boolean verboseClassFlag;
+    private final boolean verboseInstFlag;
     private final String classpath;
     private final String mainClass;
     private final List<String> args;
 
-    public Cmd(String classpath, String mainClass, List<String> args) {
+    public Cmd(String classpath, String mainClass, boolean verboseClassFlag, boolean verboseInstFlag, List<String> args) {
         this.classpath = classpath;
         this.mainClass = mainClass;
         this.args = args;
+        this.verboseClassFlag = verboseClassFlag;
+        this.verboseInstFlag = verboseInstFlag;
+        Config.init(this);
     }
 
     public static Cmd parseArgs(String[] args) {
@@ -25,6 +31,8 @@ public class Cmd {
         options.addOption("v", false, "print version");
         // -cp equals -classpath
         options.addOption("cp", true, "class path where to find");
+        options.addOption("vclass", false, "print loaded classed info");
+        options.addOption("vinst", false, "print executed instruction info");
 
         try {
             // Create a parser
@@ -43,13 +51,24 @@ public class Cmd {
             if (commandLine.hasOption("cp")) {
                 printClasspath(commandLine.getOptionValue("cp"));
             }
+
+            boolean verboseClass = false;
+            if (commandLine.hasOption("vclass")) {
+                verboseClass = true;
+            }
+
+            boolean verboseInstruction = false;
+            if (commandLine.hasOption("vinst")) {
+                verboseInstruction = true;
+            }
+
             String cp = commandLine.getOptionValue("cp");
             String[] leftArgs = commandLine.getArgs();
             if (leftArgs.length == 0) {
                 printHelp();
                 System.exit(0);
             }
-            return new Cmd(cp, leftArgs[0], Arrays.asList(leftArgs).subList(1, leftArgs.length));
+            return new Cmd(cp, leftArgs[0], verboseClass, verboseInstruction, Arrays.asList(leftArgs).subList(1, leftArgs.length));
         } catch (ParseException e) {
             e.printStackTrace();
             printHelp();
@@ -84,5 +103,17 @@ public class Cmd {
 
     public List<String> getArgs() {
         return args;
+    }
+
+    public static class Config {
+
+        public static boolean verboseClassFlag;
+        public static boolean verboseInstFlag;
+
+        public static void init(Cmd cmd) {
+            verboseClassFlag = cmd.verboseClassFlag;
+            verboseInstFlag = cmd.verboseInstFlag;
+        }
+
     }
 }

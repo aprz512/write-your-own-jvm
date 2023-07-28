@@ -43,5 +43,9 @@ public class MyThread {
         return new StackFrame(this, method);
     }
 
+    public boolean isStackFrameEmpty() {
+        return stack.isEmpty();
+    }
+
 }
 

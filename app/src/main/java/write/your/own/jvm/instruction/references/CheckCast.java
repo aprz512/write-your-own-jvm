@@ -35,7 +35,7 @@ public class CheckCast extends Operand1Instruction {
         ConstantPool constantPool = frame.getMyMethod().getMyClass().getConstantPool();
         ConstantPool.Constant constant = constantPool.getConstant(operand);
         ClassRef classRef = (ClassRef) constant.value;
-        MyClass myClass = classRef.resolvedClass();
+        MyClass myClass = classRef.getResolvedClass();
         if (!ref.getMyClass().instanceOf(myClass)) {
             throw new MyJvmException("java.lang.ClassCastException");
         }

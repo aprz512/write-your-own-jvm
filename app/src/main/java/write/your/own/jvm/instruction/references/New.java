@@ -4,6 +4,7 @@ import write.your.own.jvm.exception.MyJvmException;
 import write.your.own.jvm.instruction.CodeReader;
 import write.your.own.jvm.instruction.base.Operand1Instruction;
 import write.your.own.jvm.runtimedata.StackFrame;
+import write.your.own.jvm.runtimedata.heap.ClassInit;
 import write.your.own.jvm.runtimedata.heap.MyClass;
 import write.your.own.jvm.runtimedata.heap.MyObject;
 import write.your.own.jvm.runtimedata.heap.constants.ClassRef;
@@ -29,7 +30,12 @@ public class New extends Operand1Instruction {
         ConstantPool constantPool = frame.getMyMethod().getMyClass().getConstantPool();
         ConstantPool.Constant constant = constantPool.getConstant(operand);
         ClassRef classRef = (ClassRef) constant.value;
-        MyClass refClass = classRef.resolvedClass();
+        MyClass refClass = classRef.getResolvedClass();
+        if (!refClass.isInitStarted()) {
+            frame.revertPc();
+            ClassInit.initMyClass(refClass, frame.getThread());
+            return;
+        }
         if (refClass.isAbstract() || refClass.isInterface()) {
             throw new MyJvmException("java.lang.InstantiationError");
         }

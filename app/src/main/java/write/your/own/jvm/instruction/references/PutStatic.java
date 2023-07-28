@@ -7,6 +7,7 @@ import write.your.own.jvm.instruction.base.Operand1Instruction;
 import write.your.own.jvm.runtimedata.LocalVariableTable;
 import write.your.own.jvm.runtimedata.OperandStack;
 import write.your.own.jvm.runtimedata.StackFrame;
+import write.your.own.jvm.runtimedata.heap.ClassInit;
 import write.your.own.jvm.runtimedata.heap.MyClass;
 import write.your.own.jvm.runtimedata.heap.MyField;
 import write.your.own.jvm.runtimedata.heap.MyMethod;
@@ -33,9 +34,15 @@ public class PutStatic extends Operand1Instruction {
         ConstantPool constantPool = myMethod.getMyClass().getConstantPool();
         ConstantPool.Constant constant = constantPool.getConstant(operand);
         FieldRef fieldRef = (FieldRef) constant.value;
-        MyField field = fieldRef.resolvedField();
+        MyField field = fieldRef.getResolvedField();
         MyClass fieldClass = field.getMyClass();
-        // todo init class
+
+        if (!fieldClass.isInitStarted()) {
+            frame.revertPc();
+            ClassInit.initMyClass(fieldClass, frame.getThread());
+            return;
+        }
+
         if (!field.isStatic()) {
             throw new MyJvmException("java.lang.IncompatibleClassChangeError");
         }

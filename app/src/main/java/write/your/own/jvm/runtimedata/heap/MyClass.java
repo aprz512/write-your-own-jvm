@@ -25,6 +25,12 @@ public class MyClass {
      */
     private LocalVariableTable staticVars;
 
+    /**
+     * 类的初始化逻辑控制
+     * 由于我们的类加载器还不够完善，所以先使用一个简单的布尔状态就足够了
+     */
+    private boolean initStarted;
+
     public MyClass(ClassFile classFile) {
         accessFlag = classFile.getAccessFlag();
         thisClassName = classFile.getThisClassName();
@@ -33,6 +39,14 @@ public class MyClass {
         constantPool = newConstantPool(classFile);
         fields = newFields(classFile);
         methods = newMethods(classFile);
+    }
+
+    public boolean isInitStarted() {
+        return initStarted;
+    }
+
+    public void setInitStarted(boolean initStarted) {
+        this.initStarted = initStarted;
     }
 
     private MyMethod[] newMethods(ClassFile classFile) {
@@ -183,6 +197,10 @@ public class MyClass {
         return false;
     }
 
+    public boolean isSuperClassOf(MyClass myClass) {
+        return myClass.isSubClassOf(this);
+    }
+
     public MyObject newObject() {
         return new MyObject(this);
     }
@@ -217,4 +235,62 @@ public class MyClass {
         }
         throw new MyJvmException("no such method: " + name + descriptor);
     }
+
+    public boolean isImplement(MyClass interfaceClass) {
+        MyClass currentClass = this;
+        while (currentClass != null) {
+            MyClass[] inters = currentClass.getInterfaces();
+            for (MyClass inter : inters) {
+                if (inter == interfaceClass || inter.isSubInterfaceOf(interfaceClass)) {
+                    return true;
+                }
+            }
+            currentClass = currentClass.getSuperClass();
+        }
+
+        return false;
+    }
+
+    public boolean isSubInterfaceOf(MyClass interfaceClass) {
+        MyClass[] inters = this.getInterfaces();
+        for (MyClass inter : inters) {
+            if (inter == interfaceClass || inter.isSubInterfaceOf(interfaceClass)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public MyField getField(String name, String descriptor, boolean isStatic) {
+        MyClass currentClass = this;
+        while (currentClass != null) {
+            MyField[] fields = currentClass.getFields();
+            for (MyField field : fields) {
+                if (field.isSame(name, descriptor) && field.isStatic() == isStatic) {
+                    return field;
+                }
+            }
+            currentClass = currentClass.getSuperClass();
+        }
+
+        return null;
+    }
+
+    public MyMethod getMethod(String name, String descriptor, boolean isStatic) {
+        MyClass currentClass = this;
+        while (currentClass != null) {
+            MyMethod[] myMethods = currentClass.getMethods();
+            for (MyMethod method : myMethods) {
+                if (method.isSame(name, descriptor) && method.isStatic() == isStatic) {
+                    return method;
+                }
+            }
+            currentClass = currentClass.getSuperClass();
+        }
+
+        return null;
+    }
+
+
 }

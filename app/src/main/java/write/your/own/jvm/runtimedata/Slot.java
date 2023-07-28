@@ -9,12 +9,16 @@ public class Slot {
     private MyObject ref;
     private int value;
 
+    private boolean isRef;
+
     public Slot(int value) {
         this.value = value;
+        isRef = false;
     }
 
     public Slot(MyObject ref) {
         this.ref = ref;
+        isRef = true;
     }
 
     public int getValue() {
@@ -23,13 +27,19 @@ public class Slot {
 
     public void setValue(int value) {
         this.value = value;
+        isRef = false;
     }
 
     public MyObject getRef() {
         return ref;
     }
 
+    public boolean isRef() {
+        return isRef;
+    }
+
     public void setRef(MyObject ref) {
         this.ref = ref;
+        isRef = true;
     }
 }

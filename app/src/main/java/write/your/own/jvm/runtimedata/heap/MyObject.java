@@ -18,4 +18,15 @@ public class MyObject {
         return instanceFields;
     }
 
+//    public void set(String name, String descriptor, MyObject object) {
+//        MyClass currentClass = myClass;
+//        while (currentClass != null) {
+//            MyField[] fields = currentClass.getFields();
+//            for (MyField field : fields) {
+//
+//            }
+//        }
+//    }
+
+
 }

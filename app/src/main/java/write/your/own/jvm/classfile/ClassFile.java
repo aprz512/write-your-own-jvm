@@ -171,7 +171,7 @@ public class ClassFile {
     public String[] getInterfaceNames() {
         String[] result = new String[interfaceIndexes.length];
         for (int i = 0; i < interfaceIndexes.length; i++) {
-            result[i] = constantPool.getUtf8(interfaceIndexes[i]);
+            result[i] = constantPool.getClassName(interfaceIndexes[i]);
         }
         return result;
     }

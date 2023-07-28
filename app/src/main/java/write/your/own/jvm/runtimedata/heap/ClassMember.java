@@ -59,6 +59,11 @@ public class ClassMember {
         return (accessFlag & AccessFlag.ACC_STATIC) != 0;
     }
 
+    public boolean isNative() {
+        return (accessFlag & AccessFlag.ACC_NATIVE) != 0;
+    }
+
+
     public String getDescriptor() {
         return descriptor;
     }
@@ -93,5 +98,9 @@ public class ClassMember {
 
     public MyClass getMyClass() {
         return myClass;
+    }
+
+    public boolean isSame(String name, String descriptor) {
+        return name.equals(this.name) && descriptor.equals(this.getDescriptor());
     }
 }

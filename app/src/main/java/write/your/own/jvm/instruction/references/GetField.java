@@ -33,7 +33,7 @@ public class GetField extends Operand1Instruction {
         ConstantPool constantPool = myMethod.getMyClass().getConstantPool();
         ConstantPool.Constant constant = constantPool.getConstant(operand);
         FieldRef fieldRef = (FieldRef) constant.value;
-        MyField field = fieldRef.resolvedField();
+        MyField field = fieldRef.getResolvedField();
         if (field.isStatic()) {
             throw new MyJvmException("java.lang.IncompatibleClassChangeError");
         }

@@ -34,8 +34,13 @@ public class Ldc extends Operand1Instruction {
             case ConstantInfo.CONST_TAG_FLOAT:
                 operandStack.pushFloat((Float) constant.value);
                 break;
+            case ConstantInfo.CONST_TAG_STRING:
+//                MyClassLoader classLoader = frame.getMyMethod().getMyClass().getClassLoader();
+//                MyClass stringClass = classLoader.loadClass("java/lang/String");
+//                MyObject myObject = stringClass.newObject();
+//                stringClass.getField("value")
             default:
-                throw new NotImplementedException();
+                throw new NotImplementedException("tag = " + constant.tag);
         }
     }
 

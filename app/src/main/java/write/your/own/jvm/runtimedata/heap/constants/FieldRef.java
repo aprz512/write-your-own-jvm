@@ -12,7 +12,7 @@ public class FieldRef extends MemberRef {
         super(constantPool, refInfo);
     }
 
-    public MyField resolvedField() {
+    public MyField getResolvedField() {
         if (myField == null) {
             myField = resolveFieldRef();
         }
@@ -21,7 +21,7 @@ public class FieldRef extends MemberRef {
 
     private MyField resolveFieldRef() {
         MyClass current = constantPool.getMyClass();
-        MyClass refClass = resolvedClass();
+        MyClass refClass = getResolvedClass();
         MyField field = lookupField(refClass, name, descriptor);
         if (field == null) {
             throw new RuntimeException("java.lang.NoSuchFieldError");

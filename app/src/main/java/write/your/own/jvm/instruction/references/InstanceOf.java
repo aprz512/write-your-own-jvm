@@ -34,7 +34,7 @@ public class InstanceOf extends Operand1Instruction {
         ConstantPool constantPool = frame.getMyMethod().getMyClass().getConstantPool();
         ConstantPool.Constant constant = constantPool.getConstant(operand);
         ClassRef classRef = (ClassRef) constant.value;
-        MyClass refClass = classRef.resolvedClass();
+        MyClass refClass = classRef.getResolvedClass();
         if (myObject.getMyClass().instanceOf(refClass)) {
             operandStack.pushInt(1);
         } else {

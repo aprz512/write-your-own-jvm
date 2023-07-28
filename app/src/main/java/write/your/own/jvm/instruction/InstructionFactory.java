@@ -3,9 +3,7 @@ package write.your.own.jvm.instruction;
 import write.your.own.jvm.exception.NotImplementedException;
 import write.your.own.jvm.instruction.comparisons.*;
 import write.your.own.jvm.instruction.constant.*;
-import write.your.own.jvm.instruction.control.Goto;
-import write.your.own.jvm.instruction.control.LookupSwitch;
-import write.your.own.jvm.instruction.control.TableSwitch;
+import write.your.own.jvm.instruction.control.*;
 import write.your.own.jvm.instruction.conversions.*;
 import write.your.own.jvm.instruction.extended.GotoW;
 import write.your.own.jvm.instruction.extended.IfNonNull;
@@ -365,18 +363,18 @@ public class InstructionFactory {
                 return new TableSwitch(reader);
             case 0xab:
                 return new LookupSwitch(reader);
-            // case 0xac:
-            // 	return ireturn
-            // case 0xad:
-            // 	return lreturn
-            // case 0xae:
-            // 	return freturn
-            // case 0xaf:
-            // 	return dreturn
-            // case 0xb0:
-            // 	return areturn
-            // case 0xb1:
-            // 	return _return
+            case 0xac:
+                return new IReturn();
+            case 0xad:
+                return new LReturn();
+            case 0xae:
+                return new FReturn();
+            case 0xaf:
+                return new DReturn();
+            case 0xb0:
+                return new AReturn();
+            case 0xb1:
+                return new Return();
             case 0xb2:
                 return new GetStatic(reader);
             case 0xb3:
@@ -389,10 +387,10 @@ public class InstructionFactory {
                 return new InvokeVirtual(reader);
             case 0xb7:
                 return new InvokeSpecial(reader);
-            // case 0xb8:
-            // 	return &INVOKE_STATIC{}
-            // case 0xb9:
-            // 	return &INVOKE_INTERFACE{}
+            case 0xb8:
+                return new InvokeStatic(reader);
+            case 0xb9:
+                return new InvokeInterface(reader);
             // case 0xba:
             // 	return &INVOKE_DYNAMIC{}
             case 0xbb:
@@ -429,7 +427,7 @@ public class InstructionFactory {
             // case 0xfe: impdep1
             // case 0xff: impdep2
             default:
-                throw new NotImplementedException();
+                throw new NotImplementedException("opcode = 0x" + Integer.toHexString(opcode));
         }
     }
 

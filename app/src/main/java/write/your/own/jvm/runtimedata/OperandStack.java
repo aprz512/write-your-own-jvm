@@ -1,6 +1,7 @@
 package write.your.own.jvm.runtimedata;
 
 import write.your.own.jvm.runtimedata.heap.MyObject;
+import write.your.own.jvm.util.Log;
 import write.your.own.jvm.util.NumUtil;
 
 /**
@@ -15,13 +16,14 @@ public class OperandStack {
 
     public OperandStack(int size) {
         slots = new Slot[size];
+        for (int i = 0; i < size; i++) {
+            slots[i] = new Slot(null);
+        }
     }
 
     public Slot popSlot() {
         --freeIndex;
-        Slot topSlot = slots[freeIndex];
-        slots[freeIndex] = null;
-        return topSlot;
+        return slots[freeIndex];
     }
 
     public void pushSlot(Slot slot) {
@@ -76,6 +78,22 @@ public class OperandStack {
 
     public MyObject popRef() {
         return popSlot().getRef();
+    }
+
+    public MyObject getRefFromTop(int num) {
+        return slots[freeIndex - 1 - num].getRef();
+    }
+
+    public void print() {
+        Log.d("⬇⬇⬇⬇⬇⬇operand stack⬇⬇⬇⬇⬇⬇");
+        for (int i = 0; i < freeIndex; i++) {
+            if (slots[i].isRef()) {
+                Log.d("Ref:slot[" + i + "]=" + slots[i].getRef());
+            } else {
+                Log.d("Value:slot[" + i + "]=" + slots[i].getValue());
+            }
+        }
+        Log.d("⬆⬆⬆⬆⬆⬆operand stack⬆⬆⬆⬆⬆⬆");
     }
 
 }

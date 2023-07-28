@@ -74,8 +74,7 @@ public class Main {
     }
 
     private static void printArgs(Cmd cmd) {
-        Log.d("classpath: " + cmd.getClasspath());
-        Log.d("main class: " + cmd.getMainClass());
-        Log.d("args: " + cmd.getArgs().toString());
+        Log.o("main class: " + cmd.getMainClass());
+        Log.o("args: " + cmd.getArgs().toString());
     }
 }

@@ -27,7 +27,7 @@ public class SymRef {
         this.className = className;
     }
 
-    public MyClass resolvedClass() {
+    public MyClass getResolvedClass() {
         if (this.myClass == null) {
             myClass = resolveClassRef();
         }

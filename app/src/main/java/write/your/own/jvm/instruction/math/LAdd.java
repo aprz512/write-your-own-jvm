@@ -17,7 +17,7 @@ public class LAdd implements Instruction {
     public void execute(StackFrame frame) {
         long v1 = frame.getOperandStack().popLong();
         long v2 = frame.getOperandStack().popLong();
-        frame.getOperandStack().pushDouble(v2 + v1);
+        frame.getOperandStack().pushLong(v2 + v1);
     }
 
     @Override

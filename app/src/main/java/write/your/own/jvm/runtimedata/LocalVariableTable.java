@@ -18,8 +18,12 @@ public class LocalVariableTable {
         }
     }
 
+    public void setSlot(int index, Slot slot) {
+        slots[index] = slot;
+    }
+
     public void setInt(int index, int val) {
-        slots[index] = new Slot(val);
+        slots[index].setValue(val);
     }
 
     public int getInt(int index) {

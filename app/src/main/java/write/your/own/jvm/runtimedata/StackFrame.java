@@ -43,4 +43,8 @@ public class StackFrame {
     public MyMethod getMyMethod() {
         return myMethod;
     }
+
+    public void revertPc() {
+        this.nextPc = this.thread.getPc();
+    }
 }
