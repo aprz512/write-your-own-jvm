@@ -52,10 +52,6 @@ public class MyClass {
 
     }
 
-    public String getSourceFile() {
-        return sourceFile;
-    }
-
     public static MyClass createPrimitiveClass(String className, MyClassLoader classLoader) {
         MyClass myClass = new MyClass();
         myClass.accessFlag = AccessFlag.ACC_PUBLIC;
@@ -77,6 +73,10 @@ public class MyClass {
                 loader.loadClass("java/io/Serializable"),
         };
         return myClass;
+    }
+
+    public String getSourceFile() {
+        return sourceFile;
     }
 
     public MyObject getJClass() {

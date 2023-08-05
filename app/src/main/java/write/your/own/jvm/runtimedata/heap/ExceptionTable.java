@@ -6,11 +6,19 @@ import write.your.own.jvm.runtimedata.heap.constants.ConstantPool;
 
 public class ExceptionTable {
 
-    private final ExceptionHandler[] handlers ;
+    private final ExceptionHandler[] handlers;
 
 
     public ExceptionTable(ExceptionHandler[] handlers) {
         this.handlers = handlers;
+    }
+
+    public static ExceptionTable newExceptionTable(CodeAttribute.ExceptionTableEntry[] entries, ConstantPool constantPool) {
+        ExceptionHandler[] handlers = new ExceptionHandler[entries.length];
+        for (int i = 0; i < entries.length; i++) {
+            handlers[i] = new ExceptionHandler(entries[i], constantPool);
+        }
+        return new ExceptionTable(handlers);
     }
 
     public ExceptionHandler[] getHandlers() {
@@ -35,15 +43,6 @@ public class ExceptionTable {
         return null;
     }
 
-    public static ExceptionTable newExceptionTable(CodeAttribute.ExceptionTableEntry[] entries, ConstantPool constantPool) {
-        ExceptionHandler[] handlers = new ExceptionHandler[entries.length];
-        for (int i = 0; i < entries.length; i++) {
-            handlers[i] = new ExceptionHandler(entries[i], constantPool);
-        }
-        return new ExceptionTable(handlers);
-    }
-
-
     public static class ExceptionHandler {
         public int startPc;
         public int endPc;
@@ -61,8 +60,8 @@ public class ExceptionTable {
             this.handlerPc = entry.handlerPc;
             if (entry.catchType == 0) {
                 catchType = null;
-            } else  {
-             this.catchType = (ClassRef) constantPool.getConstant(entry.catchType).value;
+            } else {
+                this.catchType = (ClassRef) constantPool.getConstant(entry.catchType).value;
             }
         }
     }

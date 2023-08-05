@@ -6,7 +6,6 @@ import write.your.own.jvm.runtimedata.MyString;
 import write.your.own.jvm.runtimedata.MyThread;
 import write.your.own.jvm.runtimedata.OperandStack;
 import write.your.own.jvm.runtimedata.StackFrame;
-import write.your.own.jvm.runtimedata.heap.ExceptionTable;
 import write.your.own.jvm.runtimedata.heap.MyMethod;
 import write.your.own.jvm.runtimedata.heap.MyObject;
 import write.your.own.jvm.util.Log;

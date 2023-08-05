@@ -8,8 +8,6 @@ import write.your.own.jvm.runtimedata.heap.MyClass;
 import write.your.own.jvm.runtimedata.heap.MyClassLoader;
 import write.your.own.jvm.util.Log;
 import write.your.own.jvm.vnative.NativeRegistry;
-import write.your.own.jvm.vnative.java.lang.*;
-import write.your.own.jvm.vnative.sun.misc.NVM;
 
 public class Main {
     public static void main(String[] args) {

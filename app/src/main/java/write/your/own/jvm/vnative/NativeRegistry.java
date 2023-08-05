@@ -20,6 +20,17 @@ public class NativeRegistry {
         return registry;
     }
 
+    public static void init() {
+        NClass.init();
+        NObject.init();
+        NFloat.init();
+        NString.init();
+        NSystem.init();
+        NDouble.init();
+        NVM.init();
+        NThrowable.init();
+    }
+
     public void registerNativeMethod(String className, String methodName, String methodDescriptor, NativeMethod method) {
         String key = buildKey(className, methodName, methodDescriptor);
         registryMap.put(key, method);
@@ -37,17 +48,6 @@ public class NativeRegistry {
 
         String key = buildKey(className, methodName, methodDescriptor);
         return registryMap.get(key);
-    }
-
-    public static void init() {
-        NClass.init();
-        NObject.init();
-        NFloat.init();
-        NString.init();
-        NSystem.init();
-        NDouble.init();
-        NVM.init();
-        NThrowable.init();
     }
 
 }

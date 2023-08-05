@@ -1,12 +1,10 @@
 package write.your.own.jvm.runtimedata;
 
-import org.checkerframework.checker.units.qual.A;
 import write.your.own.jvm.runtimedata.heap.MyMethod;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-import java.util.function.Consumer;
 
 public class MyThread {
     // if stackFrame bigger than maxStackFrame, we throw StackOverFlowException
@@ -52,7 +50,8 @@ public class MyThread {
     }
 
     public void clearStack() {
-        stack.clear();;
+        stack.clear();
+        ;
     }
 
     public List<StackFrame> getStackTraceFrames(int skipFrame) {

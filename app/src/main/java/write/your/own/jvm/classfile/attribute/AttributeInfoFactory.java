@@ -42,7 +42,7 @@ public class AttributeInfoFactory {
             case "Synthetic":
                 return new SyntheticAttribute(attrNameIndex, attrLength);
             case "SourceFile":
-                return new SourceFileAttribute(attrNameIndex, attrLength, reader,constantPool);
+                return new SourceFileAttribute(attrNameIndex, attrLength, reader, constantPool);
             case "LineNumberTable":
                 return new LineNumberTableAttribute(attrNameIndex, attrLength, reader);
             case "LocalVariableTable":
