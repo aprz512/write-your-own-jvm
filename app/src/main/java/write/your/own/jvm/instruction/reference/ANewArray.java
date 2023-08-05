@@ -6,7 +6,6 @@ import write.your.own.jvm.instruction.base.Operand1Instruction;
 import write.your.own.jvm.runtimedata.StackFrame;
 import write.your.own.jvm.runtimedata.heap.ArrayObject;
 import write.your.own.jvm.runtimedata.heap.MyClass;
-import write.your.own.jvm.runtimedata.heap.MyClassLoader;
 import write.your.own.jvm.runtimedata.heap.constants.ClassRef;
 import write.your.own.jvm.runtimedata.heap.constants.ConstantPool;
 
@@ -38,29 +37,6 @@ public class ANewArray extends Operand1Instruction {
         MyClass arrayClass = resolvedClass.toArrayClass();
         ArrayObject arrayObject = arrayClass.newArrayObject(count);
         frame.getOperandStack().pushRef(arrayObject);
-    }
-
-    private MyClass createPrimitiveArrayClass(MyClassLoader loader, int type) {
-        switch (type) {
-            case ArrayType.T_BOOLEAN:
-                return loader.loadClass("[Z");
-            case ArrayType.T_BYTE:
-                return loader.loadClass("[B");
-            case ArrayType.T_CHAR:
-                return loader.loadClass("[C");
-            case ArrayType.T_SHORT:
-                return loader.loadClass("[S");
-            case ArrayType.T_INT:
-                return loader.loadClass("[I");
-            case ArrayType.T_LONG:
-                return loader.loadClass("[J");
-            case ArrayType.T_FLOAT:
-                return loader.loadClass("[F");
-            case ArrayType.T_DOUBLE:
-                return loader.loadClass("[D");
-            default:
-                throw new MyJvmException("unknown type : " + type);
-        }
     }
 
     @Override

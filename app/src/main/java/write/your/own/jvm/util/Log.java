@@ -2,9 +2,6 @@ package write.your.own.jvm.util;
 
 public class Log {
 
-    private static final int x = 10;
-    private final int y = 1090890;
-
     public static void d(String message) {
         System.out.println(message);
     }
