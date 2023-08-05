@@ -59,9 +59,13 @@ public class MyObject {
         MyObject cloneObject = new MyObject();
         cloneObject.myClass = this.myClass;
         // clone local
-        cloneObject.instanceFields = cloneObject.instanceFields.cloneInstanceFields();
+        if (this.instanceFields != null) {
+            cloneObject.instanceFields = this.instanceFields.cloneInstanceFields();
+        }
         // clone array
-        cloneObject.array = Arrays.copyOf(this.array, this.array.length);
+        if (this.array != null) {
+            cloneObject.array = Arrays.copyOf(this.array, this.array.length);
+        }
         cloneObject.extra = this.extra;
 
         return cloneObject;

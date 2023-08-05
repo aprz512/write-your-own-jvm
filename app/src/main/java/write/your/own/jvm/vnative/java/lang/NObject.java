@@ -7,7 +7,7 @@ import write.your.own.jvm.runtimedata.heap.MyObject;
 import write.your.own.jvm.vnative.NativeMethod;
 import write.your.own.jvm.vnative.NativeRegistry;
 
-public class Object {
+public class NObject {
 
     public static void init() {
         NativeRegistry.getInstance().registerNativeMethod(

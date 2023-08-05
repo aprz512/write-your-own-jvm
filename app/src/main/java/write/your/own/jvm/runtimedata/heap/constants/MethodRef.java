@@ -17,9 +17,11 @@ public class MethodRef extends MemberRef {
     public static MyMethod lookupMethodInClass(MyClass currentClass, String name, String descriptor) {
         while (currentClass != null) {
             MyMethod[] methods = currentClass.getMethods();
-            for (MyMethod method : methods) {
-                if (method.getName().equals(name) && method.getDescriptor().equals(descriptor)) {
-                    return method;
+            if (methods != null) {
+                for (MyMethod method : methods) {
+                    if (method.getName().equals(name) && method.getDescriptor().equals(descriptor)) {
+                        return method;
+                    }
                 }
             }
             currentClass = currentClass.getSuperClass();

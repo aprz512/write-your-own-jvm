@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class StringPool {
 
     private static final StringPool instance = new StringPool();
-    private final HashMap<Integer, String> inernalStrings = new HashMap<>();
+    private final HashMap<String, MyObject> inernalStrings = new HashMap<>();
 
     private StringPool() {
     }
@@ -14,10 +14,15 @@ public class StringPool {
         return instance;
     }
 
-    public void putString(String value) {
-        inernalStrings.put(value.hashCode(), value);
+    public MyObject putString(String string, MyObject stringObj) {
+        if (inernalStrings.containsKey(string)) {
+            return inernalStrings.get(string);
+        }
+        inernalStrings.put(string, stringObj);
+        return stringObj;
     }
 
-//    public String get
-
+    public MyObject get(String string) {
+        return inernalStrings.get(string);
+    }
 }

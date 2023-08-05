@@ -24,26 +24,12 @@ repositories {
 dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
-
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:31.1-jre'
-
     implementation 'commons-cli:commons-cli:1.4'
 }
 
 application {
     // Define the main class for the application.
     mainClass = 'write.your.own.jvm.App'
-}
-
-tasks.named('test') {
-    // Use JUnit Platform for unit tests.
-    useJUnitPlatform()
-}
-
-if (hasProperty('buildScan')) {
-    buildScan {
-        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
-        termsOfServiceAgree = 'yes'
-    }
 }

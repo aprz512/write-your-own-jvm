@@ -27,7 +27,7 @@ public class InterfaceMethodRef extends MemberRef {
         if (!resolvedClass.isInterface()) {
             throw new MyJvmException("java.lang.IncompatibleClassChangeError");
         }
-        MyMethod currentMethod = lookupMethodInInterfaces(new MyClass[]{currentClass}, getName(), getDescriptor());
+        MyMethod currentMethod = lookupMethodInInterfaces(new MyClass[]{resolvedClass}, getName(), getDescriptor());
         if (currentMethod == null) {
             throw new MyJvmException("java.lang.NoSuchMethodError");
         }

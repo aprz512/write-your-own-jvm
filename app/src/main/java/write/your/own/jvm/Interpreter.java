@@ -3,6 +3,7 @@ package write.your.own.jvm;
 import write.your.own.jvm.instruction.CodeReader;
 import write.your.own.jvm.instruction.Instruction;
 import write.your.own.jvm.instruction.InstructionFactory;
+import write.your.own.jvm.runtimedata.LocalVariableTable;
 import write.your.own.jvm.runtimedata.MyThread;
 import write.your.own.jvm.runtimedata.OperandStack;
 import write.your.own.jvm.runtimedata.StackFrame;
@@ -66,9 +67,12 @@ public class Interpreter {
         String methodName = myMethod.getName();
         int pc = stackFrame.getThread().getPc();
 
-        if (Cmd.Config.verboseOperandStackFlag) {
+        if (Cmd.Config.verboseFrameFlag) {
             OperandStack operandStack = stackFrame.getOperandStack();
             operandStack.print();
+            LocalVariableTable localVariableTable = stackFrame.getLocalVariableTable();
+            localVariableTable.print();
+            Log.d("");
         }
 
         Log.d(thisClassName + "." + methodName + "() #" + pc + " -> " + instruction.getReadableName());

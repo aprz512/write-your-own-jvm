@@ -1,6 +1,7 @@
 package write.your.own.jvm.runtimedata;
 
 import write.your.own.jvm.runtimedata.heap.MyObject;
+import write.your.own.jvm.util.Log;
 import write.your.own.jvm.util.NumUtil;
 
 /**
@@ -83,4 +84,15 @@ public class LocalVariableTable {
         return table;
     }
 
+    public void print() {
+        Log.d("|----------local variable table----------");
+        for (int i = 0; i < slots.length; i++) {
+            if (slots[i].isRef()) {
+                Log.d("    Ref:slot[" + i + "]=" + slots[i].getRef());
+            } else {
+                Log.d("    Value:slot[" + i + "]=" + slots[i].getValue());
+            }
+        }
+        Log.d("|----------local variable table----------");
+    }
 }

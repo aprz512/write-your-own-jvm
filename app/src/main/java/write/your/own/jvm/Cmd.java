@@ -10,18 +10,18 @@ public class Cmd {
 
     private final boolean verboseClassFlag;
     private final boolean verboseInstFlag;
-    private final boolean verboseOperandStackFlag;
+    private final boolean verboseFrameFlag;
     private final String classpath;
     private final String mainClass;
     private final List<String> args;
 
-    public Cmd(String classpath, String mainClass, boolean verboseClassFlag, boolean verboseInstFlag, boolean verboseOperandStackFlag, List<String> args) {
+    public Cmd(String classpath, String mainClass, boolean verboseClassFlag, boolean verboseInstFlag, boolean verboseFrameFlag, List<String> args) {
         this.classpath = classpath;
         this.mainClass = mainClass;
         this.args = args;
         this.verboseClassFlag = verboseClassFlag;
         this.verboseInstFlag = verboseInstFlag;
-        this.verboseOperandStackFlag = verboseOperandStackFlag;
+        this.verboseFrameFlag = verboseFrameFlag;
         Config.init(this);
     }
 
@@ -35,7 +35,7 @@ public class Cmd {
         options.addOption("cp", true, "class path where to find");
         options.addOption("vclass", false, "print loaded classed info");
         options.addOption("vinst", false, "print executed instruction info");
-        options.addOption("vos", false, "print operand stack info");
+        options.addOption("vframe", false, "print operand stack and local variable table info");
 
         try {
             // Create a parser
@@ -59,7 +59,7 @@ public class Cmd {
 
             boolean verboseInstruction = commandLine.hasOption("vinst");
 
-            boolean verboseOperandStack = commandLine.hasOption("vos");
+            boolean verboseOperandStack = commandLine.hasOption("vframe");
 
             String cp = commandLine.getOptionValue("cp");
             String[] leftArgs = commandLine.getArgs();
@@ -108,12 +108,12 @@ public class Cmd {
 
         public static boolean verboseClassFlag;
         public static boolean verboseInstFlag;
-        public static boolean verboseOperandStackFlag;
+        public static boolean verboseFrameFlag;
 
         public static void init(Cmd cmd) {
             verboseClassFlag = cmd.verboseClassFlag;
             verboseInstFlag = cmd.verboseInstFlag;
-            verboseOperandStackFlag = cmd.verboseOperandStackFlag;
+            verboseFrameFlag = cmd.verboseFrameFlag;
         }
 
     }

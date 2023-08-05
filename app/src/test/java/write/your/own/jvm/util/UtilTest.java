@@ -24,7 +24,7 @@ public class UtilTest {
     @Test
     public void testCast() {
         Object x = 2;
-        assertEquals(2, (int)x);
+        assertEquals(2, (int) x);
     }
 
     @Test

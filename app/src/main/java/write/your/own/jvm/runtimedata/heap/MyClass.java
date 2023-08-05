@@ -3,6 +3,7 @@ package write.your.own.jvm.runtimedata.heap;
 import write.your.own.jvm.classfile.ClassFile;
 import write.your.own.jvm.instruction.reference.ClassNameHelper;
 import write.your.own.jvm.runtimedata.LocalVariableTable;
+import write.your.own.jvm.runtimedata.PrimitiveType;
 import write.your.own.jvm.runtimedata.heap.constants.ConstantPool;
 
 public class MyClass {
@@ -422,5 +423,9 @@ public class MyClass {
 
     public String getJavaName() {
         return this.thisClassName.replace("/", ".");
+    }
+
+    public boolean isPrimitive() {
+        return PrimitiveType.primitiveTypes.containsKey(thisClassName);
     }
 }

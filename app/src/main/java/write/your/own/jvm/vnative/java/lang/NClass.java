@@ -1,5 +1,6 @@
 package write.your.own.jvm.vnative.java.lang;
 
+import write.your.own.jvm.exception.MyJvmException;
 import write.your.own.jvm.runtimedata.MyString;
 import write.your.own.jvm.runtimedata.StackFrame;
 import write.your.own.jvm.runtimedata.heap.MyClass;
@@ -8,7 +9,7 @@ import write.your.own.jvm.runtimedata.heap.MyObject;
 import write.your.own.jvm.vnative.NativeMethod;
 import write.your.own.jvm.vnative.NativeRegistry;
 
-public class Class {
+public class NClass {
 
     public static void init() {
         NativeRegistry.getInstance().registerNativeMethod(
@@ -43,6 +44,9 @@ public class Class {
         @Override
         public void invoke(StackFrame frame) {
             MyObject ref = frame.getLocalVariableTable().getRef(0);
+            if (!ref.getMyClass().getThisClassName().equals("java/lang/String")) {
+                throw new MyJvmException("not a string obj!!!");
+            }
             String string = MyString.toString(ref);
             MyClassLoader classLoader = frame.getMyMethod().getMyClass().getClassLoader();
             MyObject jClass = classLoader.loadClass(string).getJClass();

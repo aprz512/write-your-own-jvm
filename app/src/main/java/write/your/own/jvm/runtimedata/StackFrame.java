@@ -8,9 +8,8 @@ public class StackFrame {
     private final LocalVariableTable localVariableTable;
 
     private final MyThread thread;
-    private int nextPc;
-
     private final MyMethod myMethod;
+    private int nextPc;
 
 
     public StackFrame(MyThread thread, MyMethod myMethod) {

@@ -49,6 +49,8 @@ public class InvokeVirtual extends Operand1Instruction {
                 Log.d("hack output: " + MyString.toString(myObject));
                 break;
             default:
+//                MyObject ref = operandStack.popRef();
+//                Log.d("hack output: " + ref.toString());
                 throw new NotImplementedException();
         }
     }

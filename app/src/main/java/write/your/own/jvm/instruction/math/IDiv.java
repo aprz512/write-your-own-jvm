@@ -16,7 +16,7 @@ public class IDiv implements Instruction {
     public void execute(StackFrame frame) {
         int v1 = frame.getOperandStack().popInt();
         int v2 = frame.getOperandStack().popInt();
-        frame.getOperandStack().pushFloat(v2 / v1);
+        frame.getOperandStack().pushInt(v2 / v1);
     }
 
     @Override

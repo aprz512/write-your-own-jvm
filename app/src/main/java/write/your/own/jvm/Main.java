@@ -3,16 +3,12 @@
  */
 package write.your.own.jvm;
 
-import write.your.own.jvm.classfile.ClassFile;
-import write.your.own.jvm.classfile.MemberInfo;
-import write.your.own.jvm.classfile.constantpool.ConstantInfo;
-import write.your.own.jvm.classfile.constantpool.ConstantPool;
 import write.your.own.jvm.classpath.Classpath;
 import write.your.own.jvm.runtimedata.heap.MyClass;
 import write.your.own.jvm.runtimedata.heap.MyClassLoader;
 import write.your.own.jvm.util.Log;
-import write.your.own.jvm.vnative.java.lang.Class;
-import write.your.own.jvm.vnative.java.lang.Object;
+import write.your.own.jvm.vnative.java.lang.*;
+import write.your.own.jvm.vnative.sun.misc.NVM;
 
 public class Main {
     public static void main(String[] args) {
@@ -25,58 +21,24 @@ public class Main {
         Classpath classpath = new Classpath("", cmd.getClasspath());
         String className = cmd.getMainClass().replace(".", "/");
         MyClassLoader classLoader = new MyClassLoader(classpath);
-        Class.init();
-        Object.init();
+        registerNativeMethod();
         try {
-//            byte[] bytes = classLoader.readClass("java/lang/CharSequence");
             MyClass mainClass = classLoader.loadClass(className);
             Interpreter interpreter = new Interpreter();
             interpreter.interpret(mainClass.geMainMethod(), cmd.getArgs());
-//            printClassInfo(new ClassFile(bytes));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static MemberInfo getMethod(ClassFile classFile, String name, String des) {
-        MemberInfo[] methods = classFile.getMethods();
-        for (MemberInfo method : methods) {
-            if (method.getName().equals(name)
-                    && method.getDescriptor().equals(des)) {
-                return method;
-            }
-        }
-
-        return null;
-    }
-
-    private static void printClassInfo(ClassFile classFile) {
-        Log.o("version: " + classFile.getMajorVersion() + "." + classFile.getMinorVersion());
-
-        ConstantPool constantPool = classFile.getConstantPool();
-        ConstantInfo[] constantInfos = constantPool.getConstantInfos();
-        Log.o("constants count: " + constantPool.getSize());
-        for (int i = 1; i < constantPool.getSize(); i++) {
-            if (constantInfos[i] != null) {
-                Log.o(i + ": " + constantInfos[i]);
-            }
-        }
-
-        Log.o("access flags: 0x" + classFile.getAccessFlag());
-        Log.o("this class: " + constantPool.getClassName(classFile.getThisClassIndex()));
-        Log.o("super class: " + constantPool.getClassName(classFile.getSuperClassIndex()));
-        Log.o("interfaces: " + classFile.getInterfaceIndexes().length);
-        MemberInfo[] fields = classFile.getFields();
-        Log.o("fields count: " + fields.length);
-        for (MemberInfo memberInfo : fields) {
-            Log.o("  " + constantPool.getUtf8(memberInfo.getNameIndex()));
-        }
-
-        MemberInfo[] methods = classFile.getMethods();
-        Log.o("methods count: " + methods.length);
-        for (MemberInfo memberInfo : methods) {
-            Log.o("  " + constantPool.getUtf8(memberInfo.getNameIndex()));
-        }
+    private static void registerNativeMethod() {
+        NClass.init();
+        NObject.init();
+        NFloat.init();
+        NString.init();
+        NSystem.init();
+        NDouble.init();
+        NVM.init();
     }
 
     private static void printArgs(Cmd cmd) {

@@ -85,15 +85,15 @@ public class OperandStack {
     }
 
     public void print() {
-        Log.d("⬇⬇⬇⬇⬇⬇operand stack⬇⬇⬇⬇⬇⬇");
+        Log.d("|----------operand stack----------");
         for (int i = 0; i < freeIndex; i++) {
             if (slots[i].isRef()) {
-                Log.d("Ref:slot[" + i + "]=" + slots[i].getRef());
+                Log.d("    Ref:slot[" + i + "]=" + slots[i].getRef());
             } else {
-                Log.d("Value:slot[" + i + "]=" + slots[i].getValue());
+                Log.d("    Value:slot[" + i + "]=" + slots[i].getValue());
             }
         }
-        Log.d("⬆⬆⬆⬆⬆⬆operand stack⬆⬆⬆⬆⬆⬆");
+        Log.d("|----------operand stack----------");
     }
 
 }

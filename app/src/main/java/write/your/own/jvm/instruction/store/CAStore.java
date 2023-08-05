@@ -24,7 +24,7 @@ public class CAStore implements Instruction {
             throw new MyJvmException("java.lang.NullPointerException");
         }
         checkIndex(index, arrayObject.getArrayLength());
-        arrayObject.setArrayElement(index, value);
+        arrayObject.setArrayElement(index, (char) value);
     }
 
     private void checkIndex(int index, int arrayLength) {

@@ -14,7 +14,7 @@ public class CodeReader {
     public int readByte() {
         byte b = code[pc];
         pc += 1;
-        return b & 0xFF;
+        return b;
     }
 
     /**
@@ -27,25 +27,25 @@ public class CodeReader {
     }
 
     public int readShort() {
-        int b1 = readByte();
-        int b2 = readByte();
-        return b1 << 8 | b2;
+        int b1 = readUnsignedByte();
+        int b2 = readUnsignedByte();
+        return (short) (b1 << 8 | b2);
     }
 
     /**
      * remove extended sign bit
      */
     public int readUnsignedShort() {
-        int b1 = readByte();
-        int b2 = readByte();
+        int b1 = readUnsignedByte();
+        int b2 = readUnsignedByte();
         return (b1 << 8 | b2) & 0xFFFF;
     }
 
     public int readInt() {
-        int b1 = readByte();
-        int b2 = readByte();
-        int b3 = readByte();
-        int b4 = readByte();
+        int b1 = readUnsignedByte();
+        int b2 = readUnsignedByte();
+        int b3 = readUnsignedByte();
+        int b4 = readUnsignedByte();
         return b1 << 24 | b2 << 16 | b3 << 8 | b4;
     }
 
