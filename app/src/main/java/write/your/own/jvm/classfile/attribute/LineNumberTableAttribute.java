@@ -23,7 +23,11 @@ public class LineNumberTableAttribute extends AttributeInfo {
         lineNumberTable = LineNumberTable.read(reader, lineNumberTableLength);
     }
 
-    static class LineNumberTable {
+    public LineNumberTable[] getLineNumberTable() {
+        return lineNumberTable;
+    }
+
+    public static class LineNumberTable {
 
         public final int startPc;
         public final int lineNumber;

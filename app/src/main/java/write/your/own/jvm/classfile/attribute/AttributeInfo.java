@@ -48,6 +48,10 @@ public abstract class AttributeInfo {
         this.attributeLength = attributeLength;
     }
 
+    public int getAttributeNameIndex() {
+        return attributeNameIndex;
+    }
+
     public static AttributeInfo[] readAttributes(ClassReader reader, ConstantPool constantPool, int attributeCount) {
 //        Log.d("readAttributes ---- :" + attributeCount);
         AttributeInfo[] attributes = new AttributeInfo[attributeCount];

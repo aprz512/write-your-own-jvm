@@ -57,8 +57,8 @@ public class ClassReader {
      * read next ${len} bytes
      */
     public byte[] nextBytes(int len) {
-        if (pos + len >= codes.length) {
-            throw new ArrayIndexOutOfBoundsException();
+        if (pos + len > codes.length) {
+            throw new ArrayIndexOutOfBoundsException("pos = " + pos + ", len = " + len + ", codes.length = " + codes.length);
         }
         byte[] data = Arrays.copyOfRange(codes, pos, pos + len);
         pos += len;

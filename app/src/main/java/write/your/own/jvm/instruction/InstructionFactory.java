@@ -5,6 +5,7 @@ import write.your.own.jvm.instruction.comparison.*;
 import write.your.own.jvm.instruction.constant.*;
 import write.your.own.jvm.instruction.control.*;
 import write.your.own.jvm.instruction.conversion.*;
+import write.your.own.jvm.instruction.exception.AThrow;
 import write.your.own.jvm.instruction.extended.GotoW;
 import write.your.own.jvm.instruction.extended.IfNonNull;
 import write.your.own.jvm.instruction.extended.IfNull;
@@ -403,7 +404,7 @@ public class InstructionFactory {
             case 0xbe:
                 return new ArrayLength();
             case 0xbf:
-                // 	return athrow
+                 	return new AThrow();
             case 0xc0:
                 return new CheckCast(reader);
             case 0xc1:

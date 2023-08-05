@@ -1,6 +1,7 @@
 package write.your.own.jvm.classfile;
 
 import write.your.own.jvm.classfile.attribute.AttributeInfo;
+import write.your.own.jvm.classfile.attribute.SourceFileAttribute;
 import write.your.own.jvm.classfile.constantpool.ConstantPool;
 
 /**
@@ -48,6 +49,12 @@ public class ClassFile {
         readInterfaceIndexes();
         readFields();
         readMethods();
+        readAttributes();
+    }
+
+    private void readAttributes() {
+        int count = reader.nextU2ToInt();
+        attributes = AttributeInfo.readAttributes(reader, constantPool, count);
     }
 
     private void readMethods() {
@@ -174,5 +181,14 @@ public class ClassFile {
             result[i] = constantPool.getClassName(interfaceIndexes[i]);
         }
         return result;
+    }
+
+    public String getSourceFile() {
+        for (AttributeInfo info : attributes) {
+            if (info instanceof SourceFileAttribute) {
+                return ((SourceFileAttribute) info).getSourceFile();
+            }
+        }
+        return "unknown";
     }
 }

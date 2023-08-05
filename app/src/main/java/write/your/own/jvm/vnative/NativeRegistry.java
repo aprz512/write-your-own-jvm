@@ -1,5 +1,8 @@
 package write.your.own.jvm.vnative;
 
+import write.your.own.jvm.vnative.java.lang.*;
+import write.your.own.jvm.vnative.sun.misc.NVM;
+
 import java.util.HashMap;
 
 /**
@@ -34,6 +37,17 @@ public class NativeRegistry {
 
         String key = buildKey(className, methodName, methodDescriptor);
         return registryMap.get(key);
+    }
+
+    public static void init() {
+        NClass.init();
+        NObject.init();
+        NFloat.init();
+        NString.init();
+        NSystem.init();
+        NDouble.init();
+        NVM.init();
+        NThrowable.init();
     }
 
 }

@@ -35,6 +35,8 @@ public class MyClass {
     // class 也是一个 java/lang/Class 的一个对象
     private MyObject jClass;
 
+    private String sourceFile;
+
     public MyClass(ClassFile classFile) {
         accessFlag = classFile.getAccessFlag();
         thisClassName = classFile.getThisClassName();
@@ -43,10 +45,15 @@ public class MyClass {
         constantPool = newConstantPool(classFile);
         fields = newFields(classFile);
         methods = newMethods(classFile);
+        this.sourceFile = classFile.getSourceFile();
     }
 
     private MyClass() {
 
+    }
+
+    public String getSourceFile() {
+        return sourceFile;
     }
 
     public static MyClass createPrimitiveClass(String className, MyClassLoader classLoader) {
@@ -428,4 +435,6 @@ public class MyClass {
     public boolean isPrimitive() {
         return PrimitiveType.primitiveTypes.containsKey(thisClassName);
     }
+
+
 }

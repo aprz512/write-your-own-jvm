@@ -3,6 +3,7 @@ package write.your.own.jvm.classfile;
 import write.your.own.jvm.classfile.attribute.AttributeInfo;
 import write.your.own.jvm.classfile.attribute.CodeAttribute;
 import write.your.own.jvm.classfile.attribute.ConstantValueAttribute;
+import write.your.own.jvm.classfile.attribute.LineNumberTableAttribute;
 import write.your.own.jvm.classfile.constantpool.ConstantPool;
 
 /**

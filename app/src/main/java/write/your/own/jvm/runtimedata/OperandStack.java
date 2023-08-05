@@ -96,4 +96,11 @@ public class OperandStack {
         Log.d("|----------operand stack----------");
     }
 
+    public void clear() {
+        freeIndex = 0;
+        for (Slot slot : slots) {
+            slot.setValue(0);
+            slot.setRef(null);
+        }
+    }
 }

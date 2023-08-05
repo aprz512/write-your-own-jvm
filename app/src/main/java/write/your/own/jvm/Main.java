@@ -7,6 +7,7 @@ import write.your.own.jvm.classpath.Classpath;
 import write.your.own.jvm.runtimedata.heap.MyClass;
 import write.your.own.jvm.runtimedata.heap.MyClassLoader;
 import write.your.own.jvm.util.Log;
+import write.your.own.jvm.vnative.NativeRegistry;
 import write.your.own.jvm.vnative.java.lang.*;
 import write.your.own.jvm.vnative.sun.misc.NVM;
 
@@ -21,7 +22,7 @@ public class Main {
         Classpath classpath = new Classpath("", cmd.getClasspath());
         String className = cmd.getMainClass().replace(".", "/");
         MyClassLoader classLoader = new MyClassLoader(classpath);
-        registerNativeMethod();
+        NativeRegistry.init();
         try {
             MyClass mainClass = classLoader.loadClass(className);
             Interpreter interpreter = new Interpreter();
@@ -29,16 +30,6 @@ public class Main {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private static void registerNativeMethod() {
-        NClass.init();
-        NObject.init();
-        NFloat.init();
-        NString.init();
-        NSystem.init();
-        NDouble.init();
-        NVM.init();
     }
 
     private static void printArgs(Cmd cmd) {

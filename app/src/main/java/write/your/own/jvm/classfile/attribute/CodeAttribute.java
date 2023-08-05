@@ -27,7 +27,7 @@ public class CodeAttribute extends AttributeInfo {
 
     private final int codeLength;
     private final byte[] code;
-    private final ExceptionTable[] exceptionTables;
+    private final ExceptionTableEntry[] exceptionTable;
 
     private final int attributesCount;
     private final AttributeInfo[] attributes;
@@ -39,13 +39,17 @@ public class CodeAttribute extends AttributeInfo {
         this.maxLocals = reader.nextU2ToInt();
         this.codeLength = reader.nextU4ToInt();
         this.code = reader.nextBytes(codeLength);
-        this.exceptionTables = ExceptionTable.readExceptionTable(reader);
+        this.exceptionTable = ExceptionTableEntry.readExceptionTable(reader);
         this.attributesCount = reader.nextU2ToInt();
         this.attributes = AttributeInfo.readAttributes(reader, constantPool, attributesCount);
     }
 
     public int getMaxLocals() {
         return maxLocals;
+    }
+
+    public ExceptionTableEntry[] getExceptionTable() {
+        return exceptionTable;
     }
 
     public int getMaxStack() {
@@ -56,31 +60,41 @@ public class CodeAttribute extends AttributeInfo {
         return code;
     }
 
-    private static class ExceptionTable {
+    public LineNumberTableAttribute getLineNumberTableAttribute() {
+        for (AttributeInfo info : attributes) {
+            if (info instanceof LineNumberTableAttribute) {
+                return (LineNumberTableAttribute) info;
+            }
+        }
+
+        return null;
+    }
+
+    public static class ExceptionTableEntry {
         public final int startPc;
         public final int endPc;
         public final int handlerPc;
         public final int catchType;
 
-        public ExceptionTable(int startPc, int endPc, int handlerPc, int catchType) {
+        public ExceptionTableEntry(int startPc, int endPc, int handlerPc, int catchType) {
             this.startPc = startPc;
             this.endPc = endPc;
             this.handlerPc = handlerPc;
             this.catchType = catchType;
         }
 
-        static ExceptionTable[] readExceptionTable(ClassReader reader) {
+        static ExceptionTableEntry[] readExceptionTable(ClassReader reader) {
             int length = reader.nextU2ToInt();
-            ExceptionTable[] exceptionTable = new ExceptionTable[length];
+            ExceptionTableEntry[] exceptionTableEntry = new ExceptionTableEntry[length];
 
             for (int i = 0; i < length; i++) {
                 int startPc = reader.nextU2ToInt();
                 int endPc = reader.nextU2ToInt();
                 int handlerPc = reader.nextU2ToInt();
                 int catchType = reader.nextU2ToInt();
-                exceptionTable[i] = new ExceptionTable(startPc, endPc, handlerPc, catchType);
+                exceptionTableEntry[i] = new ExceptionTableEntry(startPc, endPc, handlerPc, catchType);
             }
-            return exceptionTable;
+            return exceptionTableEntry;
         }
     }
 

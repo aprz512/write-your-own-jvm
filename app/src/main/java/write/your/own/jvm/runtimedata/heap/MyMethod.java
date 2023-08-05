@@ -2,6 +2,7 @@ package write.your.own.jvm.runtimedata.heap;
 
 import write.your.own.jvm.classfile.MemberInfo;
 import write.your.own.jvm.classfile.attribute.CodeAttribute;
+import write.your.own.jvm.classfile.attribute.LineNumberTableAttribute;
 
 import java.util.List;
 
@@ -12,6 +13,9 @@ public class MyMethod extends ClassMember {
     private byte[] code;
 
     private int argsSlotCount;
+
+    private ExceptionTable exceptionTable;
+    private LineNumberTableAttribute.LineNumberTable[] lineNumberTable;
 
     public MyMethod(MyClass myClass, MemberInfo info) {
         super(myClass, info);
@@ -85,7 +89,13 @@ public class MyMethod extends ClassMember {
             this.code = codeAttribute.getCode();
             this.maxLocals = codeAttribute.getMaxLocals();
             this.maxStack = codeAttribute.getMaxStack();
+            this.exceptionTable = ExceptionTable.newExceptionTable(codeAttribute.getExceptionTable(), getMyClass().getConstantPool());
+            LineNumberTableAttribute lineNumberTableAttribute = codeAttribute.getLineNumberTableAttribute();
+            if (lineNumberTableAttribute != null) {
+                this.lineNumberTable = lineNumberTableAttribute.getLineNumberTable();
+            }
         }
+
     }
 
     public int getMaxStack() {
@@ -104,4 +114,22 @@ public class MyMethod extends ClassMember {
         return argsSlotCount;
     }
 
+    public int findExceptionHandler(MyClass exceptionClass, int pc) {
+        ExceptionTable.ExceptionHandler exceptionHandler = this.exceptionTable.findExceptionHandler(exceptionClass, pc);
+        if (exceptionHandler != null) {
+            return exceptionHandler.handlerPc;
+        }
+        return -1;
+    }
+
+    public int getLineNumber(int pc) {
+        for (int i = lineNumberTable.length - 1; i >= 0; i--) {
+            LineNumberTableAttribute.LineNumberTable table = lineNumberTable[i];
+            if (pc > table.startPc) {
+                return table.lineNumber;
+            }
+        }
+
+        return -1;
+    }
 }
