@@ -12,7 +12,7 @@ import write.your.own.jvm.classfile.ClassReader;
  */
 public class ExceptionsAttribute extends AttributeInfo {
     private final int numberOfExceptions;
-    private final int exceptionIndexTable[];
+    private final int[] exceptionIndexTable;
 
     public ExceptionsAttribute(int attributeNameIndex, int attributeLength, ClassReader reader) {
         super(attributeNameIndex, attributeLength);

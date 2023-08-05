@@ -1,7 +1,7 @@
 package write.your.own.jvm.runtimedata.heap;
 
 import write.your.own.jvm.classfile.ClassFile;
-import write.your.own.jvm.exception.MyJvmException;
+import write.your.own.jvm.instruction.reference.ClassNameHelper;
 import write.your.own.jvm.runtimedata.LocalVariableTable;
 import write.your.own.jvm.runtimedata.heap.constants.ConstantPool;
 
@@ -31,6 +31,9 @@ public class MyClass {
      */
     private boolean initStarted;
 
+    // class 也是一个 java/lang/Class 的一个对象
+    private MyObject jClass;
+
     public MyClass(ClassFile classFile) {
         accessFlag = classFile.getAccessFlag();
         thisClassName = classFile.getThisClassName();
@@ -39,6 +42,41 @@ public class MyClass {
         constantPool = newConstantPool(classFile);
         fields = newFields(classFile);
         methods = newMethods(classFile);
+    }
+
+    private MyClass() {
+
+    }
+
+    public static MyClass createPrimitiveClass(String className, MyClassLoader classLoader) {
+        MyClass myClass = new MyClass();
+        myClass.accessFlag = AccessFlag.ACC_PUBLIC;
+        myClass.thisClassName = className;
+        myClass.classLoader = classLoader;
+        myClass.initStarted = true;
+        return myClass;
+    }
+
+    public static MyClass createArrayClass(String name, MyClassLoader loader) {
+        MyClass myClass = new MyClass();
+        myClass.accessFlag = AccessFlag.ACC_PUBLIC;
+        myClass.thisClassName = name;
+        myClass.classLoader = loader;
+        myClass.initStarted = true;
+        myClass.superClass = loader.loadClass("java/lang/Object");
+        myClass.interfaces = new MyClass[]{
+                loader.loadClass("java/lang/Cloneable"),
+                loader.loadClass("java/io/Serializable"),
+        };
+        return myClass;
+    }
+
+    public MyObject getJClass() {
+        return jClass;
+    }
+
+    public void setJClass(MyObject jClass) {
+        this.jClass = jClass;
     }
 
     public boolean isInitStarted() {
@@ -205,6 +243,10 @@ public class MyClass {
         return new MyObject(this);
     }
 
+    public ArrayObject newArrayObject(int count) {
+        return new ArrayObject(this, count);
+    }
+
     public boolean instanceOf(MyClass refClass) {
         if (this == refClass) {
             return true;
@@ -233,7 +275,7 @@ public class MyClass {
                 return method;
             }
         }
-        throw new MyJvmException("no such method: " + name + descriptor);
+        return null;
     }
 
     public boolean isImplement(MyClass interfaceClass) {
@@ -292,5 +334,93 @@ public class MyClass {
         return null;
     }
 
+    public boolean isArray() {
+        return this.thisClassName.charAt(0) == '[';
+    }
 
+    public MyClass toArrayClass() {
+        String arrayClassName = ClassNameHelper.getArrayClassName(thisClassName);
+        return classLoader.loadClass(arrayClassName);
+    }
+
+    public boolean isAssignableFrom(MyClass otherClass) {
+        MyClass s = otherClass;
+        MyClass t = this;
+
+        if (s == t) {
+            return true;
+        }
+
+        if (!s.isArray()) {
+            if (!s.isInterface()) {
+                // s is class
+                if (!t.isInterface()) {
+                    // t is not interface
+                    return s.isSubClassOf(t);
+                } else {
+                    // t is interface
+                    return s.isImplements(t);
+                }
+            } else {
+                // s is interface
+                if (!t.isInterface()) {
+                    // t is not interface
+                    return t.isObjectClass();
+                } else {
+                    // t is interface
+                    return t.isSuperInterfaceOf(s);
+                }
+            }
+        } else {
+            // s is array
+            if (!t.isArray()) {
+                if (!t.isInterface()) {
+                    // t is class
+                    return t.isObjectClass();
+                } else {
+                    // t is interface
+                    return t.isCloneableClass() || t.isSerializableClass();
+                }
+            } else {
+                // t is array
+                MyClass sc = s.getComponentClass();
+                MyClass tc = t.getComponentClass();
+                return sc == tc || tc.isAssignableFrom(sc);
+            }
+        }
+    }
+
+    private boolean isSuperInterfaceOf(MyClass s) {
+        return s.isSubInterfaceOf(this);
+    }
+
+    public boolean isObjectClass() {
+        return thisClassName.equals("java/lang/Object");
+    }
+
+    public boolean isCloneableClass() {
+        return thisClassName.equals("java/lang/Cloneable");
+    }
+
+    public boolean isSerializableClass() {
+        return thisClassName.equals("java/io/Serializable");
+    }
+
+    public MyClass getComponentClass() {
+        String componentClassName = ClassNameHelper.getComponentClassName(thisClassName);
+        return classLoader.loadClass(componentClassName);
+    }
+
+    private boolean isImplements(MyClass t) {
+        return false;
+    }
+
+    public MyClass getArrayClass() {
+        String arrayClassName = ClassNameHelper.getArrayClassName(thisClassName);
+        return classLoader.loadClass(arrayClassName);
+    }
+
+    public String getJavaName() {
+        return this.thisClassName.replace("/", ".");
+    }
 }

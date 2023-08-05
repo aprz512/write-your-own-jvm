@@ -4,8 +4,12 @@ import write.your.own.jvm.classfile.constantpool.ConstantInfo;
 import write.your.own.jvm.exception.NotImplementedException;
 import write.your.own.jvm.instruction.CodeReader;
 import write.your.own.jvm.instruction.base.Operand1Instruction;
+import write.your.own.jvm.runtimedata.MyString;
 import write.your.own.jvm.runtimedata.OperandStack;
 import write.your.own.jvm.runtimedata.StackFrame;
+import write.your.own.jvm.runtimedata.heap.MyClassLoader;
+import write.your.own.jvm.runtimedata.heap.MyObject;
+import write.your.own.jvm.runtimedata.heap.constants.ClassRef;
 import write.your.own.jvm.runtimedata.heap.constants.ConstantPool;
 
 /**
@@ -26,6 +30,7 @@ public class Ldc extends Operand1Instruction {
     public void execute(StackFrame frame) {
         OperandStack operandStack = frame.getOperandStack();
         ConstantPool constantPool = frame.getMyMethod().getMyClass().getConstantPool();
+        MyClassLoader currentClassLoader = constantPool.getMyClass().getClassLoader();
         ConstantPool.Constant constant = constantPool.getConstant(operand);
         switch (constant.tag) {
             case ConstantInfo.CONST_TAG_INTEGER:
@@ -34,11 +39,16 @@ public class Ldc extends Operand1Instruction {
             case ConstantInfo.CONST_TAG_FLOAT:
                 operandStack.pushFloat((Float) constant.value);
                 break;
+            case ConstantInfo.CONST_TAG_CLASS:
+                ClassRef classRef = (ClassRef) constant.value;
+                MyObject jClass = classRef.getResolvedClass().getJClass();
+                operandStack.pushRef(jClass);
+                break;
             case ConstantInfo.CONST_TAG_STRING:
-//                MyClassLoader classLoader = frame.getMyMethod().getMyClass().getClassLoader();
-//                MyClass stringClass = classLoader.loadClass("java/lang/String");
-//                MyObject myObject = stringClass.newObject();
-//                stringClass.getField("value")
+                // string
+                MyObject stringObject = MyString.create((String) constant.value, currentClassLoader);
+                operandStack.pushRef(stringObject);
+                break;
             default:
                 throw new NotImplementedException("tag = " + constant.tag);
         }

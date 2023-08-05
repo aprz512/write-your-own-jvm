@@ -1,7 +1,6 @@
 package write.your.own.jvm.classfile.constantpool;
 
 import write.your.own.jvm.classfile.ClassReader;
-import write.your.own.jvm.exception.NotImplementedException;
 
 import static write.your.own.jvm.classfile.constantpool.ConstantInfo.*;
 
@@ -38,14 +37,15 @@ public class ConstantInfoFactory {
                 return new ConstantMemberRefInfo(constPool, reader, tag);
 
             // 是Java SE 7才添加到class文件中的，目的是支持新增的 invokedynamic 指令
-            // 暂不处理
+            // 暂不处理，只是读取
             case CONST_TAG_METHOD_HANDLE:
+                return new ConstantMethodHandleInfo(constPool, reader, tag);
             case CONST_TAG_METHOD_TYPE:
+                return new ConstantMethodTypeInfo(constPool, reader, tag);
             case CONST_TAG_INVOKE_DYNAMIC:
-                throw new NotImplementedException();
-
+                return new ConstantInvokeDynamicInfo(constPool, reader, tag);
             default:
-                throw new ClassFormatError("constant pool tag!");
+                throw new ClassFormatError("constant pool tag = " + tag);
         }
     }
 }

@@ -3,9 +3,14 @@ package write.your.own.jvm.util;
 public class ByteUtil {
 
     public static int byteToInt(byte[] codes) {
-        String s1 = byteToHexString(codes);
-        // if hex string overflow, it will throw exception
-        return Integer.valueOf(s1, 16);
+        if (codes.length < 4) {
+            return Integer.valueOf(byteToHexString(codes), 16);
+        }
+        int ch1 = codes[0] & 0xFF;
+        int ch2 = codes[1] & 0xFF;
+        int ch3 = codes[2] & 0xFF;
+        int ch4 = codes[3] & 0xFF;
+        return ((ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4));
     }
 
     public static String byteToHexString(byte[] codes) {

@@ -4,13 +4,13 @@ import write.your.own.jvm.runtimedata.heap.MyMethod;
 
 public class StackFrame {
 
-    private OperandStack operandStack;
-    private LocalVariableTable localVariableTable;
+    private final OperandStack operandStack;
+    private final LocalVariableTable localVariableTable;
 
-    private MyThread thread;
+    private final MyThread thread;
     private int nextPc;
 
-    private MyMethod myMethod;
+    private final MyMethod myMethod;
 
 
     public StackFrame(MyThread thread, MyMethod myMethod) {

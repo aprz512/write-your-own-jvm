@@ -4,7 +4,6 @@ import write.your.own.jvm.runtimedata.MyThread;
 import write.your.own.jvm.runtimedata.Slot;
 import write.your.own.jvm.runtimedata.StackFrame;
 import write.your.own.jvm.runtimedata.heap.MyMethod;
-import write.your.own.jvm.util.Log;
 
 public class InvokeMethod {
 
@@ -23,15 +22,6 @@ public class InvokeMethod {
             for (int i = argSlotCount - 1; i >= 0; i--) {
                 Slot slot = invokerFrame.getOperandStack().popSlot();
                 invokedFrame.getLocalVariableTable().setSlot(i, slot);
-            }
-        }
-
-        if (method.isNative()) {
-            if (method.getName().equals("registerNatives")) {
-                // ignore
-                thread.popStackFrame();
-            } else {
-                Log.d("found native method: " + method.getName() + method.getDescriptor());
             }
         }
     }

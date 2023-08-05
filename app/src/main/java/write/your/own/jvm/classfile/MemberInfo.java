@@ -29,7 +29,7 @@ public class MemberInfo {
     private final int descriptorIndex;
     private final int attributesCount;
     private final AttributeInfo[] attributes;
-    private ConstantPool constantPool;
+    private final ConstantPool constantPool;
 
     public MemberInfo(ConstantPool constantPool, ClassReader reader) {
         this.constantPool = constantPool;

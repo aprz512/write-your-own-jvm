@@ -14,7 +14,7 @@ public class CodeReader {
     public int readByte() {
         byte b = code[pc];
         pc += 1;
-        return b;
+        return b & 0xFF;
     }
 
     /**

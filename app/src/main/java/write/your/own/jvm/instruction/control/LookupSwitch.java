@@ -11,7 +11,7 @@ public class LookupSwitch implements Instruction {
 
     private final int defaultOffset;
     private final int npairs;
-    private int[] matchOffsets;
+    private final int[] matchOffsets;
 
     public LookupSwitch(CodeReader reader) {
         reader.skipPadding();

@@ -13,7 +13,7 @@ import write.your.own.jvm.runtimedata.StackFrame;
  */
 public class Wide implements Instruction {
 
-    private Instruction instruction;
+    private final Instruction instruction;
 
     public Wide(CodeReader reader) {
         int opCode = reader.readUnsignedByte();

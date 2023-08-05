@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class StringPool {
 
     private static final StringPool instance = new StringPool();
-    private HashMap<Integer, String> inernalStrings = new HashMap<>();
+    private final HashMap<Integer, String> inernalStrings = new HashMap<>();
 
     private StringPool() {
     }

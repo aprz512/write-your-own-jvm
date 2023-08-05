@@ -26,6 +26,6 @@ public class AReturn implements Instruction {
 
     @Override
     public String getReadableName() {
-        return "dreturn";
+        return "areturn";
     }
 }

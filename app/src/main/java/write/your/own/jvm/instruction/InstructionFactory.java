@@ -1,17 +1,18 @@
 package write.your.own.jvm.instruction;
 
 import write.your.own.jvm.exception.NotImplementedException;
-import write.your.own.jvm.instruction.comparisons.*;
+import write.your.own.jvm.instruction.comparison.*;
 import write.your.own.jvm.instruction.constant.*;
 import write.your.own.jvm.instruction.control.*;
-import write.your.own.jvm.instruction.conversions.*;
+import write.your.own.jvm.instruction.conversion.*;
 import write.your.own.jvm.instruction.extended.GotoW;
 import write.your.own.jvm.instruction.extended.IfNonNull;
 import write.your.own.jvm.instruction.extended.IfNull;
 import write.your.own.jvm.instruction.extended.Wide;
 import write.your.own.jvm.instruction.load.*;
 import write.your.own.jvm.instruction.math.*;
-import write.your.own.jvm.instruction.references.*;
+import write.your.own.jvm.instruction.reference.*;
+import write.your.own.jvm.instruction.reserved.InvokeNative;
 import write.your.own.jvm.instruction.stack.*;
 import write.your.own.jvm.instruction.store.*;
 
@@ -111,22 +112,22 @@ public class InstructionFactory {
                 return new ALoad2();
             case 0x2d:
                 return new ALoad3();
-            // case 0x2e:
-            // 	return iaload
-            // case 0x2f:
-            // 	return laload
-            // case 0x30:
-            // 	return faload
-            // case 0x31:
-            // 	return daload
-            // case 0x32:
-            // 	return aaload
-            // case 0x33:
-            // 	return baload
-            // case 0x34:
-            // 	return caload
-            // case 0x35:
-            // 	return saload
+            case 0x2e:
+                return new IALoad();
+            case 0x2f:
+                return new LALoad();
+            case 0x30:
+                return new FALoad();
+            case 0x31:
+                return new DALoad();
+            case 0x32:
+                return new AALoad();
+            case 0x33:
+                return new BALoad();
+            case 0x34:
+                return new CALoad();
+            case 0x35:
+                return new SALoad();
             case 0x36:
                 return new IStore(reader);
             case 0x37:
@@ -177,22 +178,22 @@ public class InstructionFactory {
                 return new AStore2();
             case 0x4e:
                 return new AStore3();
-            // case 0x4f:
-            // 	return iastore
-            // case 0x50:
-            // 	return lastore
-            // case 0x51:
-            // 	return fastore
-            // case 0x52:
-            // 	return dastore
-            // case 0x53:
-            // 	return aastore
-            // case 0x54:
-            // 	return bastore
-            // case 0x55:
-            // 	return castore
-            // case 0x56:
-            // 	return sastore
+            case 0x4f:
+                return new IAStore();
+            case 0x50:
+                return new LAStore();
+            case 0x51:
+                return new FAStore();
+            case 0x52:
+                return new DAStore();
+            case 0x53:
+                return new AAStore();
+            case 0x54:
+                return new BAStore();
+            case 0x55:
+                return new CAStore();
+            case 0x56:
+                return new SAStore();
             case 0x57:
                 return new Pop();
             case 0x58:
@@ -395,14 +396,14 @@ public class InstructionFactory {
             // 	return &INVOKE_DYNAMIC{}
             case 0xbb:
                 return new New(reader);
-            // case 0xbc:
-            // 	return &NEW_ARRAY{}
-            // case 0xbd:
-            // 	return &ANEW_ARRAY{}
-            // case 0xbe:
-            // 	return arraylength
-            // case 0xbf:
-            // 	return athrow
+            case 0xbc:
+                return new NewArray(reader);
+            case 0xbd:
+                return new ANewArray(reader);
+            case 0xbe:
+                return new ArrayLength();
+            case 0xbf:
+                // 	return athrow
             case 0xc0:
                 return new CheckCast(reader);
             case 0xc1:
@@ -413,8 +414,8 @@ public class InstructionFactory {
             // 	return monitorexit
             case 0xc4:
                 return new Wide(reader);
-            // case 0xc5:
-            // 	return &MULTI_ANEW_ARRAY{}
+            case 0xc5:
+                return new MultiANewArray(reader);
             case 0xc6:
                 return new IfNull(reader);
             case 0xc7:
@@ -424,7 +425,8 @@ public class InstructionFactory {
             // case 0xc9:
             // 	return &JSR_W{}
             // case 0xca: breakpoint
-            // case 0xfe: impdep1
+            case 0xfe:
+                return new InvokeNative();
             // case 0xff: impdep2
             default:
                 throw new NotImplementedException("opcode = 0x" + Integer.toHexString(opcode));

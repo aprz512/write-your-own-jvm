@@ -11,6 +11,8 @@ import write.your.own.jvm.classpath.Classpath;
 import write.your.own.jvm.runtimedata.heap.MyClass;
 import write.your.own.jvm.runtimedata.heap.MyClassLoader;
 import write.your.own.jvm.util.Log;
+import write.your.own.jvm.vnative.java.lang.Class;
+import write.your.own.jvm.vnative.java.lang.Object;
 
 public class Main {
     public static void main(String[] args) {
@@ -23,10 +25,14 @@ public class Main {
         Classpath classpath = new Classpath("", cmd.getClasspath());
         String className = cmd.getMainClass().replace(".", "/");
         MyClassLoader classLoader = new MyClassLoader(classpath);
+        Class.init();
+        Object.init();
         try {
+//            byte[] bytes = classLoader.readClass("java/lang/CharSequence");
             MyClass mainClass = classLoader.loadClass(className);
             Interpreter interpreter = new Interpreter();
-            interpreter.interpret(mainClass.geMainMethod());
+            interpreter.interpret(mainClass.geMainMethod(), cmd.getArgs());
+//            printClassInfo(new ClassFile(bytes));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -57,8 +63,8 @@ public class Main {
         }
 
         Log.o("access flags: 0x" + classFile.getAccessFlag());
-        Log.o("this class: " + constantPool.getUtf8(classFile.getThisClassIndex()));
-        Log.o("super class: " + constantPool.getUtf8(classFile.getSuperClassIndex()));
+        Log.o("this class: " + constantPool.getClassName(classFile.getThisClassIndex()));
+        Log.o("super class: " + constantPool.getClassName(classFile.getSuperClassIndex()));
         Log.o("interfaces: " + classFile.getInterfaceIndexes().length);
         MemberInfo[] fields = classFile.getFields();
         Log.o("fields count: " + fields.length);

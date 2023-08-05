@@ -9,7 +9,7 @@ import write.your.own.jvm.util.NumUtil;
  */
 public class LocalVariableTable {
 
-    private final Slot[] slots;
+    protected final Slot[] slots;
 
     public LocalVariableTable(int slotSize) {
         slots = new Slot[slotSize];
@@ -70,6 +70,17 @@ public class LocalVariableTable {
     public double getDouble(int index) {
         long tmp = this.getLong(index);
         return Double.longBitsToDouble(tmp);
+    }
+
+    public LocalVariableTable cloneLocalVariableTable() {
+        LocalVariableTable table = new LocalVariableTable(this.slots.length);
+        for (int i = 0; i < this.slots.length; i++) {
+            Slot slot = new Slot(null);
+            slot.setRef(this.slots[i].getRef());
+            slot.setValue(this.slots[i].getValue());
+            table.setSlot(i, slot);
+        }
+        return table;
     }
 
 }

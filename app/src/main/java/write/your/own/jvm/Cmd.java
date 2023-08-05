@@ -10,16 +10,18 @@ public class Cmd {
 
     private final boolean verboseClassFlag;
     private final boolean verboseInstFlag;
+    private final boolean verboseOperandStackFlag;
     private final String classpath;
     private final String mainClass;
     private final List<String> args;
 
-    public Cmd(String classpath, String mainClass, boolean verboseClassFlag, boolean verboseInstFlag, List<String> args) {
+    public Cmd(String classpath, String mainClass, boolean verboseClassFlag, boolean verboseInstFlag, boolean verboseOperandStackFlag, List<String> args) {
         this.classpath = classpath;
         this.mainClass = mainClass;
         this.args = args;
         this.verboseClassFlag = verboseClassFlag;
         this.verboseInstFlag = verboseInstFlag;
+        this.verboseOperandStackFlag = verboseOperandStackFlag;
         Config.init(this);
     }
 
@@ -33,6 +35,7 @@ public class Cmd {
         options.addOption("cp", true, "class path where to find");
         options.addOption("vclass", false, "print loaded classed info");
         options.addOption("vinst", false, "print executed instruction info");
+        options.addOption("vos", false, "print operand stack info");
 
         try {
             // Create a parser
@@ -52,15 +55,11 @@ public class Cmd {
                 printClasspath(commandLine.getOptionValue("cp"));
             }
 
-            boolean verboseClass = false;
-            if (commandLine.hasOption("vclass")) {
-                verboseClass = true;
-            }
+            boolean verboseClass = commandLine.hasOption("vclass");
 
-            boolean verboseInstruction = false;
-            if (commandLine.hasOption("vinst")) {
-                verboseInstruction = true;
-            }
+            boolean verboseInstruction = commandLine.hasOption("vinst");
+
+            boolean verboseOperandStack = commandLine.hasOption("vos");
 
             String cp = commandLine.getOptionValue("cp");
             String[] leftArgs = commandLine.getArgs();
@@ -68,7 +67,7 @@ public class Cmd {
                 printHelp();
                 System.exit(0);
             }
-            return new Cmd(cp, leftArgs[0], verboseClass, verboseInstruction, Arrays.asList(leftArgs).subList(1, leftArgs.length));
+            return new Cmd(cp, leftArgs[0], verboseClass, verboseInstruction, verboseOperandStack, Arrays.asList(leftArgs).subList(1, leftArgs.length));
         } catch (ParseException e) {
             e.printStackTrace();
             printHelp();
@@ -109,10 +108,12 @@ public class Cmd {
 
         public static boolean verboseClassFlag;
         public static boolean verboseInstFlag;
+        public static boolean verboseOperandStackFlag;
 
         public static void init(Cmd cmd) {
             verboseClassFlag = cmd.verboseClassFlag;
             verboseInstFlag = cmd.verboseInstFlag;
+            verboseOperandStackFlag = cmd.verboseOperandStackFlag;
         }
 
     }

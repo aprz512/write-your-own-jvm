@@ -5,10 +5,14 @@ import write.your.own.jvm.classfile.ClassFile;
 import write.your.own.jvm.classpath.Classpath;
 import write.your.own.jvm.exception.NotImplementedException;
 import write.your.own.jvm.runtimedata.LocalVariableTable;
+import write.your.own.jvm.runtimedata.MyString;
+import write.your.own.jvm.runtimedata.PrimitiveType;
 import write.your.own.jvm.runtimedata.heap.constants.ConstantPool;
 import write.your.own.jvm.util.Log;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class MyClassLoader {
     private final Classpath classpath;
@@ -16,6 +20,50 @@ public class MyClassLoader {
 
     public MyClassLoader(Classpath classpath) {
         this.classpath = classpath;
+
+        loadBasicClasses();
+        loadPrimitiveClasses();
+    }
+
+    private void loadPrimitiveClasses() {
+        PrimitiveType.primitiveTypes.forEach((key, value) -> {
+            loadPrimitiveClass(key);
+        });
+    }
+
+    public MyObject createClassObject() {
+        MyClass classValue = loadedClasses.get("java/lang/Class");
+        if (classValue != null) {
+            return classValue.newObject();
+        }
+        return null;
+    }
+
+    /**
+     * 每个基本类型都有一个包装类，包装类中有一个静态常量，叫作TYPE，其中存放的就是基本类型的类。
+     */
+    private void loadPrimitiveClass(String primitiveClassName) {
+        MyClass myClass = MyClass.createPrimitiveClass(primitiveClassName, this);
+        myClass.setJClass(createClassObject());
+        myClass.getJClass().setExtra(myClass);
+        loadedClasses.put(primitiveClassName, myClass);
+    }
+
+    private void loadBasicClasses() {
+        // 先 load object，会跳过 jclass 的设置
+        // 再 load class，遍历集合再设置
+        MyClass objectClass = loadClass("java/lang/Object");
+        MyClass classClass = loadClass("java/lang/Class");
+        Set<Map.Entry<String, MyClass>> entries = loadedClasses.entrySet();
+        entries.forEach(entry -> {
+                    MyClass value = entry.getValue();
+                    if (value.getJClass() == null) {
+                        MyObject classObject = classClass.newObject();
+                        classObject.setExtra(value);
+                        value.setJClass(classObject);
+                    }
+                }
+        );
     }
 
     public MyClass loadClass(String name) {
@@ -24,7 +72,27 @@ public class MyClassLoader {
             return loaded;
         }
 
-        return loadNonArrayClass(name);
+        MyClass loadedClass;
+
+        if (name.charAt(0) == '[') {
+            loadedClass = loadArrayClass(name);
+        } else {
+            loadedClass = loadNonArrayClass(name);
+        }
+
+        MyClass classValue = loadedClasses.get("java/lang/Class");
+        if (classValue != null) {
+            MyObject classObject = classValue.newObject();
+            classObject.setExtra(loadedClass);
+            loadedClass.setJClass(classObject);
+        }
+        return loadedClass;
+    }
+
+    private MyClass loadArrayClass(String name) {
+        MyClass myClass = MyClass.createArrayClass(name, this);
+        loadedClasses.put(name, myClass);
+        return myClass;
     }
 
     /**
@@ -37,6 +105,7 @@ public class MyClassLoader {
         if (Cmd.Config.verboseClassFlag) {
             Log.d("Load class: " + name);
         }
+        loadedClasses.put(name, myClass);
         return myClass;
     }
 
@@ -90,6 +159,9 @@ public class MyClassLoader {
                     staticVars.setDouble(slotId, (Double) constant.value);
                     break;
                 case "Ljava/lang/String;":
+                    MyObject stringObject = MyString.create((String) constant.value, this);
+                    staticVars.setRef(slotId, stringObject);
+                    break;
                 default:
                     throw new NotImplementedException();
             }
@@ -130,11 +202,11 @@ public class MyClassLoader {
 
 
     private MyClass defineClass(byte[] data, String name) {
+//        Log.e("defineClass:" + name);
         MyClass myClass = parseClass(data);
         myClass.setClassLoader(this);
         resolveSuperClassLoader(myClass);
         resolveInterfaces(myClass);
-        loadedClasses.put(name, myClass);
         return myClass;
     }
 
@@ -160,7 +232,7 @@ public class MyClassLoader {
         return new MyClass(new ClassFile(data));
     }
 
-    private byte[] readClass(String name) {
+    public byte[] readClass(String name) {
         try {
             return classpath.readClass(name);
         } catch (Exception e) {
