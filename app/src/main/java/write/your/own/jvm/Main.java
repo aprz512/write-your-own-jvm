@@ -4,10 +4,15 @@
 package write.your.own.jvm;
 
 import write.your.own.jvm.classpath.Classpath;
-import write.your.own.jvm.runtimedata.heap.MyClass;
-import write.your.own.jvm.runtimedata.heap.MyClassLoader;
+import write.your.own.jvm.exception.MyJvmException;
+import write.your.own.jvm.runtimedata.MyString;
+import write.your.own.jvm.runtimedata.MyThread;
+import write.your.own.jvm.runtimedata.StackFrame;
+import write.your.own.jvm.runtimedata.heap.*;
 import write.your.own.jvm.util.Log;
 import write.your.own.jvm.vnative.NativeRegistry;
+
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -17,17 +22,41 @@ public class Main {
     }
 
     private static void startJvm(Cmd cmd) {
-        Classpath classpath = new Classpath("", cmd.getClasspath());
-        String className = cmd.getMainClass().replace(".", "/");
+        Classpath classpath = new Classpath(cmd.getClasspath());
         MyClassLoader classLoader = new MyClassLoader(classpath);
+        MyThread mainThread = new MyThread();
+
+        MyClass vmClass = classLoader.loadClass("sun/misc/VM");
+        ClassInit.initMyClass(vmClass, mainThread);
+
         NativeRegistry.init();
-        try {
-            MyClass mainClass = classLoader.loadClass(className);
-            Interpreter interpreter = new Interpreter();
-            interpreter.interpret(mainClass.geMainMethod(), cmd.getArgs());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+
+        Interpreter interpreter = new Interpreter();
+
+        execMain(classLoader, mainThread, interpreter, cmd.getMainClass(), cmd.getArgs());
+    }
+
+    private static void execMain(MyClassLoader classLoader, MyThread thread, Interpreter interpreter, String mainClassName, List<String> args) {
+        String className = mainClassName.replace(".", "/");
+        MyClass mainClass = classLoader.loadClass(className);
+        MyMethod mainMethod = mainClass.geMainMethod();
+        if (mainMethod == null) {
+            throw new MyJvmException("Main method not found in class: " + className);
         }
+        StackFrame stackFrame = thread.newStackFrame(mainMethod);
+        stackFrame.getLocalVariableTable().setRef(0, createArgs(classLoader, args));
+        thread.pushStackFrame(stackFrame);
+        interpreter.interpret(thread);
+    }
+
+    private static MyObject createArgs(MyClassLoader classLoader, List<String> args) {
+        int size = args == null ? 0 : args.size();
+        MyClass stringClass = classLoader.loadClass("java/lang/String");
+        ArrayObject arrayObject = stringClass.getArrayClass().newArrayObject(size);
+        for (int i = 0; i < size; i++) {
+            arrayObject.setArrayElement(i, MyString.create(args.get(i), classLoader));
+        }
+        return arrayObject;
     }
 
     private static void printArgs(Cmd cmd) {

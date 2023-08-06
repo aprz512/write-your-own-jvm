@@ -1,7 +1,6 @@
 package write.your.own.jvm.classpath;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Classpath {
@@ -13,28 +12,16 @@ public class Classpath {
     // for example: your project java class
     private final Entry appClasspath;
 
-    public Classpath(String jreOption, String cpOption) {
-        bootStrapClasspath = parseBootStrapClasspath(jreOption);
-        extensionClasspath = parseExtensionClasspath(jreOption);
+    public Classpath(String cpOption) {
+        bootStrapClasspath = parseBootStrapClasspath();
+        extensionClasspath = parseExtensionClasspath();
         appClasspath = parseAppClasspath(cpOption);
     }
 
     /**
-     * search jre directory priority:
-     * 1. jreOption
-     * 2. current dir
-     * 3. java_home
-     *
-     * @param jreOption passed on jre directory
      * @return jre directory
      */
-    private static String getJreDir(String jreOption) {
-        if (jreOption != null && !("".equals(jreOption)) && Files.exists(Paths.get(jreOption))) {
-            return jreOption;
-        }
-        if (Files.exists(Paths.get("./jre"))) {
-            return "./jre";
-        }
+    private static String getJreDir() {
         String jh = System.getenv("JAVA_HOME");
         if (jh != null) {
             return Paths.get(jh, "jre").toString();
@@ -57,8 +44,8 @@ public class Classpath {
     /**
      * extension search path : jre/lib/ext/*
      */
-    private Entry parseExtensionClasspath(String jreOption) {
-        String jreDir = getJreDir(jreOption);
+    private Entry parseExtensionClasspath() {
+        String jreDir = getJreDir();
         // jre/lib/ext/*
         String jreExtPath = Paths.get(jreDir, "lib", "ext") + File.separator + "*";
         return new WildcardEntry(jreExtPath);
@@ -67,8 +54,8 @@ public class Classpath {
     /**
      * bootstrap search path : jre/lib/*
      */
-    private Entry parseBootStrapClasspath(String jreOption) {
-        String jreDir = getJreDir(jreOption);
+    private Entry parseBootStrapClasspath() {
+        String jreDir = getJreDir();
         // jre/lib/*
         String jreLibPath = Paths.get(jreDir, "lib") + File.separator + "*";
         return new WildcardEntry(jreLibPath);

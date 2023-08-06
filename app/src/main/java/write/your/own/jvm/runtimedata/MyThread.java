@@ -51,7 +51,6 @@ public class MyThread {
 
     public void clearStack() {
         stack.clear();
-        ;
     }
 
     public List<StackFrame> getStackTraceFrames(int skipFrame) {
