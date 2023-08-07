@@ -9,7 +9,7 @@ import write.your.own.jvm.classfile.ClassReader;
 public class UnParsedAttribute extends AttributeInfo {
     public UnParsedAttribute(int attributeNameIndex, int attributeLength, ClassReader reader) {
         super(attributeNameIndex, attributeLength);
-        // consumer next attribute bytes
+        // consume next attribute bytes
         reader.nextBytes(attributeLength);
 //        System.out.println("UnParsedAttribute" + attributeLength);
     }

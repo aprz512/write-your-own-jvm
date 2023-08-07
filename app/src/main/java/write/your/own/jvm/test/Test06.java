@@ -1,6 +1,7 @@
 package write.your.own.jvm.test;
 
 public class Test06 {
+    public static final int f = 100;
     public static int staticVar;
     public int instanceVar;
 

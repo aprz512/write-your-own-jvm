@@ -36,9 +36,9 @@ public class ConstantPool {
     private final ConstantInfo[] constantInfos;
 
     public ConstantPool(ClassReader reader) {
-        // 0是无效索引，表示不指向任何常量。
         size = reader.nextU2ToInt();
         constantInfos = new ConstantInfo[size];
+        // 0是无效索引，表示不指向任何常量。
         constantInfos[0] = new InvalidConstantInfo();
         for (int i = 1; i < size; i++) {
             int tag = reader.nextU1toInt();
