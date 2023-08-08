@@ -15,6 +15,9 @@ public class ClassMember {
         this.descriptor = info.getDescriptor();
     }
 
+    protected ClassMember() {
+    }
+
     public boolean isPublic() {
         return (accessFlag & AccessFlag.ACC_PUBLIC) != 0;
     }

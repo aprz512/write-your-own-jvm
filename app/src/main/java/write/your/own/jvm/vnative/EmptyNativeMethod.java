@@ -6,7 +6,7 @@ public class EmptyNativeMethod implements NativeMethod {
 
     @Override
     public void invoke(StackFrame frame) {
-
+        // do nothing
     }
 
 }

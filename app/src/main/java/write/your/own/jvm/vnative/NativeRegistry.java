@@ -1,7 +1,13 @@
 package write.your.own.jvm.vnative;
 
+import write.your.own.jvm.vnative.java.io.NFileDescriptor;
+import write.your.own.jvm.vnative.java.io.NFileInputStream;
+import write.your.own.jvm.vnative.java.io.NFileOutputStream;
 import write.your.own.jvm.vnative.java.lang.*;
+import write.your.own.jvm.vnative.java.security.NAccessController;
+import write.your.own.jvm.vnative.sun.misc.NUnsafe;
 import write.your.own.jvm.vnative.sun.misc.NVM;
+import write.your.own.jvm.vnative.sun.reflect.NReflection;
 
 import java.util.HashMap;
 
@@ -29,6 +35,13 @@ public class NativeRegistry {
         NDouble.init();
         NVM.init();
         NThrowable.init();
+        NFileInputStream.init();
+        NFileOutputStream.init();
+        NFileDescriptor.init();
+        NUnsafe.init();
+        NReflection.init();
+        NAccessController.init();
+        NThread.init();
     }
 
     public void registerNativeMethod(String className, String methodName, String methodDescriptor, NativeMethod method) {
@@ -41,10 +54,10 @@ public class NativeRegistry {
     }
 
     public NativeMethod findNativeMethod(String className, String methodName, String methodDescriptor) {
-        if (methodDescriptor.equals("()V") && methodName.equals("registerNatives")) {
-            // single instance should be better
-            return new EmptyNativeMethod();
-        }
+//        if (methodDescriptor.equals("()V") && methodName.equals("registerNatives")) {
+//            // single instance should be better
+//            return new EmptyNativeMethod();
+//        }
 
         String key = buildKey(className, methodName, methodDescriptor);
         return registryMap.get(key);

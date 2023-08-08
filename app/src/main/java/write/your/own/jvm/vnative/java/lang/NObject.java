@@ -4,6 +4,7 @@ import write.your.own.jvm.exception.MyJvmException;
 import write.your.own.jvm.runtimedata.StackFrame;
 import write.your.own.jvm.runtimedata.heap.MyClass;
 import write.your.own.jvm.runtimedata.heap.MyObject;
+import write.your.own.jvm.vnative.EmptyNativeMethod;
 import write.your.own.jvm.vnative.NativeMethod;
 import write.your.own.jvm.vnative.NativeRegistry;
 
@@ -25,6 +26,11 @@ public class NObject {
                 "clone",
                 "()Ljava/lang/Object;",
                 new Clone());
+        NativeRegistry.getInstance().registerNativeMethod(
+                "java/lang/Object",
+                "registerNatives",
+                "()V",
+                new EmptyNativeMethod());
     }
 
     public static class HashCode implements NativeMethod {

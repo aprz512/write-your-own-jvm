@@ -26,8 +26,8 @@ public class Main {
         MyClassLoader classLoader = new MyClassLoader(classpath);
         MyThread mainThread = new MyThread();
 
-        MyClass vmClass = classLoader.loadClass("sun/misc/VM");
-        ClassInit.initMyClass(vmClass, mainThread);
+//        MyClass vmClass = classLoader.loadClass("sun/misc/VM");
+//        ClassInit.initMyClass(vmClass, mainThread);
 
         NativeRegistry.init();
 
@@ -40,6 +40,7 @@ public class Main {
         String className = mainClassName.replace(".", "/");
         MyClass mainClass = classLoader.loadClass(className);
         MyMethod mainMethod = mainClass.geMainMethod();
+        ClassInit.initMyClass(mainClass, thread);
         if (mainMethod == null) {
             throw new MyJvmException("Main method not found in class: " + className);
         }

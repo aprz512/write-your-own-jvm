@@ -6,6 +6,7 @@ import write.your.own.jvm.runtimedata.StackFrame;
 import write.your.own.jvm.runtimedata.heap.MyClass;
 import write.your.own.jvm.runtimedata.heap.MyClassLoader;
 import write.your.own.jvm.runtimedata.heap.MyObject;
+import write.your.own.jvm.vnative.EmptyNativeMethod;
 import write.your.own.jvm.vnative.NativeMethod;
 import write.your.own.jvm.vnative.NativeRegistry;
 
@@ -37,6 +38,12 @@ public class NClass {
 //                "isPrimitive",
 //                "()Z",
 //                new Object.GetClass());
+
+        NativeRegistry.getInstance().registerNativeMethod(
+                "java/lang/Class",
+                "registerNatives",
+                "()V",
+                new EmptyNativeMethod());
     }
 
     public static class GetPrimitiveClass implements NativeMethod {

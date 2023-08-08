@@ -61,5 +61,9 @@ public class MyThread {
         }
         return frames;
     }
+
+    public StackFrame peekFrame(int top) {
+        return stack.get(stack.size() - 1 - top);
+    }
 }
 

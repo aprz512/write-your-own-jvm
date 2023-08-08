@@ -52,6 +52,12 @@ public class MyClass {
 
     }
 
+    public static MyClass createShimClass() {
+        MyClass myClass = new MyClass();
+        myClass.thisClassName = "~shim";
+        return myClass;
+    }
+
     public static MyClass createPrimitiveClass(String className, MyClassLoader classLoader) {
         MyClass myClass = new MyClass();
         myClass.accessFlag = AccessFlag.ACC_PUBLIC;
@@ -419,7 +425,18 @@ public class MyClass {
         return classLoader.loadClass(componentClassName);
     }
 
-    private boolean isImplements(MyClass t) {
+    private boolean isImplements(MyClass target) {
+        MyClass currentClass = this;
+        while (currentClass != null) {
+            MyClass[] interfaces = currentClass.getInterfaces();
+            for (MyClass inter : interfaces) {
+                if (inter == target || inter.isSubInterfaceOf(target)) {
+                    return true;
+                }
+            }
+            currentClass = currentClass.getSuperClass();
+        }
+
         return false;
     }
 

@@ -17,6 +17,9 @@ public class MyMethod extends ClassMember {
     private ExceptionTable exceptionTable;
     private LineNumberTableAttribute.LineNumberTable[] lineNumberTable;
 
+    private MyMethod() {
+    }
+
     public MyMethod(MyClass myClass, MemberInfo info) {
         super(myClass, info);
     }
@@ -38,6 +41,16 @@ public class MyMethod extends ClassMember {
         if (method.isNative()) {
             method.injectCodeAttribute(methodDescriptor.getReturnType());
         }
+        return method;
+    }
+
+    public static MyMethod createShimMethod(byte[] methodCode, String methodName, int maxStack) {
+        MyMethod method = new MyMethod();
+        method.code = methodCode;
+        method.name = methodName;
+        method.myClass = MyClass.createShimClass();
+        method.accessFlag = AccessFlag.ACC_PUBLIC;
+        method.maxStack = maxStack;
         return method;
     }
 

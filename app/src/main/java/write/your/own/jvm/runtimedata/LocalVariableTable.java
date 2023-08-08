@@ -85,14 +85,14 @@ public class LocalVariableTable {
     }
 
     public void print() {
-        Log.d("|----------local variable table----------");
+        Log.d("+----------local variable table----------");
         for (int i = 0; i < slots.length; i++) {
             if (slots[i].isRef()) {
-                Log.d("    Ref:slot[" + i + "]=" + slots[i].getRef());
+                Log.d("|    Ref:slot[" + i + "]=" + slots[i].getRef());
             } else {
-                Log.d("    Value:slot[" + i + "]=" + slots[i].getValue());
+                Log.d("|    Value:slot[" + i + "]=" + slots[i].getValue());
             }
         }
-        Log.d("|----------local variable table----------");
+        Log.d("+----------local variable table----------");
     }
 }

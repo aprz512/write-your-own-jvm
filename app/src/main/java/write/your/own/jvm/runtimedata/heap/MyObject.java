@@ -2,19 +2,17 @@ package write.your.own.jvm.runtimedata.heap;
 
 import com.google.common.annotations.VisibleForTesting;
 
-import java.util.Arrays;
-
 public class MyObject {
 
-    private MyClass myClass;
-    private InstanceFields instanceFields;
+    protected MyClass myClass;
+    protected InstanceFields instanceFields;
 
-    private Object[] array;
+//    private Object[] array;
 
     /**
      * extra字段用来记录Object结构体实例的额外信息
      */
-    private Object extra;
+    protected Object extra;
 
     public MyObject(MyClass myClass) {
         this.myClass = myClass;
@@ -50,9 +48,19 @@ public class MyObject {
         instanceFields.setRef(field.getSlotId(), refValue);
     }
 
+    public void setIntFieldValue(String name, String descriptor, int value) {
+        MyField field = myClass.getField(name, descriptor, false);
+        instanceFields.setInt(field.getSlotId(), value);
+    }
+
     public MyObject getRefFieldValue(String name, String descriptor) {
         MyField field = myClass.getField(name, descriptor, false);
         return instanceFields.getRef(field.getSlotId());
+    }
+
+    public int getIntFieldValue(String name, String descriptor) {
+        MyField field = myClass.getField(name, descriptor, false);
+        return instanceFields.getInt(field.getSlotId());
     }
 
     public MyObject cloneMyObject() {
@@ -62,12 +70,7 @@ public class MyObject {
         if (this.instanceFields != null) {
             cloneObject.instanceFields = this.instanceFields.cloneInstanceFields();
         }
-        // clone array
-        if (this.array != null) {
-            cloneObject.array = Arrays.copyOf(this.array, this.array.length);
-        }
         cloneObject.extra = this.extra;
-
         return cloneObject;
     }
 
