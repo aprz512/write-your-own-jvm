@@ -18,6 +18,15 @@ public class ArrayObject extends MyObject {
 
     }
 
+    public static ArrayObject createByteArrayObject(MyClassLoader classLoader, byte[] array) {
+        MyClass byteArrayClass = classLoader.loadClass("[B");
+        ArrayObject res = new ArrayObject(byteArrayClass, array.length);
+        for (int i = 0; i < array.length; i++) {
+            res.setArrayElement(i, array[i]);
+        }
+        return res;
+    }
+
     public int getArrayLength() {
         return array.length;
     }

@@ -2,6 +2,7 @@ package write.your.own.jvm.runtimedata.heap;
 
 import write.your.own.jvm.classfile.MemberInfo;
 import write.your.own.jvm.classfile.attribute.ConstantValueAttribute;
+import write.your.own.jvm.instruction.reference.ClassNameHelper;
 
 public class MyField extends ClassMember {
     /**
@@ -40,5 +41,10 @@ public class MyField extends ClassMember {
 
     public boolean isLongOrDouble() {
         return "J".equals(descriptor) || "D".equals(descriptor);
+    }
+
+    public MyClass getType() {
+        String className = ClassNameHelper.toClassName(this.descriptor);
+        return this.getMyClass().getClassLoader().loadClass(className);
     }
 }

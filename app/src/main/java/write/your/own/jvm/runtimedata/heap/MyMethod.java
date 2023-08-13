@@ -8,12 +8,12 @@ import java.util.List;
 
 public class MyMethod extends ClassMember {
 
+    byte[] parameterAnnotationData;                      // RuntimeVisibleParameterAnnotations_attribute
+    byte[] annotationDefaultData;                      // AnnotationDefault_attribute
     private int maxStack;
     private int maxLocals;
     private byte[] code;
-
     private int argsSlotCount;
-
     private ExceptionTable exceptionTable;
     private LineNumberTableAttribute.LineNumberTable[] lineNumberTable;
 
@@ -108,6 +108,9 @@ public class MyMethod extends ClassMember {
                 this.lineNumberTable = lineNumberTableAttribute.getLineNumberTable();
             }
         }
+
+        this.annotationDefaultData = info.getAnnotationDefaultAttributeData();
+        this.parameterAnnotationData = info.getRuntimeVisibleParameterAnnotationsAttributeData();
 
     }
 

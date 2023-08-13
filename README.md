@@ -6,6 +6,7 @@ implement a simple jvm with java
 ### 公众号版
 - [写自己的JVM（0x1）](https://mp.weixin.qq.com/s/sUrn3GisPzanGHI3Vyr3jg)
 - [写自己的JVM（0x2）](https://mp.weixin.qq.com/s/4TE_iai-1-oTDXdNxXBnKg)
+- [写自己的JVM（0x3）](https://mp.weixin.qq.com/s/q5SJA5e57-JcbFZVwt6dSQ)
 
 ### notion 版
 notion 版的进度要快，因为发公众号图要一张一张搞，调格式啥的，麻烦！

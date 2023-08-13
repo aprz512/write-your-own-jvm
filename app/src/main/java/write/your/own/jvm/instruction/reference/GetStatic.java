@@ -7,7 +7,10 @@ import write.your.own.jvm.instruction.base.Operand1Instruction;
 import write.your.own.jvm.runtimedata.LocalVariableTable;
 import write.your.own.jvm.runtimedata.OperandStack;
 import write.your.own.jvm.runtimedata.StackFrame;
-import write.your.own.jvm.runtimedata.heap.*;
+import write.your.own.jvm.runtimedata.heap.ClassInit;
+import write.your.own.jvm.runtimedata.heap.MyClass;
+import write.your.own.jvm.runtimedata.heap.MyField;
+import write.your.own.jvm.runtimedata.heap.MyMethod;
 import write.your.own.jvm.runtimedata.heap.constants.ConstantPool;
 import write.your.own.jvm.runtimedata.heap.constants.FieldRef;
 
@@ -66,11 +69,11 @@ public class GetStatic extends Operand1Instruction {
                 break;
             case 'L':
             case '[':
-                if (fieldRef.getDescriptor().equals("Ljava/lang/Class;")
-                        && fieldRef.getName().equals("TYPE")
-                        && fieldClass.getThisClassName().equals("java/lang/Void")) {
-                    MyObject ref = staticVars.getRef(slotId);
-                }
+//                if (fieldRef.getDescriptor().equals("Ljava/lang/Class;")
+//                        && fieldRef.getName().equals("TYPE")
+//                        && fieldClass.getThisClassName().equals("java/lang/Void")) {
+//                    MyObject ref = staticVars.getRef(slotId);
+//                }
                 operandStack.pushRef(staticVars.getRef(slotId));
                 break;
             default:

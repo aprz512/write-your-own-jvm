@@ -34,6 +34,14 @@ public class OperandStack {
         pushSlot(new Slot(val));
     }
 
+    public void pushBoolean(boolean value) {
+        if (value) {
+            pushInt(1);
+        } else {
+            pushInt(0);
+        }
+    }
+
     public int popInt() {
         Slot slot = popSlot();
         return slot.getValue();

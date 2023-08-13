@@ -7,10 +7,11 @@ public class MyObject {
     protected MyClass myClass;
     protected InstanceFields instanceFields;
 
-//    private Object[] array;
-
     /**
      * extra字段用来记录Object结构体实例的额外信息
+     * 对于一个 Class 的对象来说，比如 String.class，
+     * myClass 字段就是 java.lang.Class
+     * extra 字段应该代表的是它真是的类型 String.class，它是 java.lang.Class 的一个实例
      */
     protected Object extra;
 

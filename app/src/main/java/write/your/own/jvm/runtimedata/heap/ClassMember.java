@@ -8,11 +8,16 @@ public class ClassMember {
     protected String descriptor;
     protected MyClass myClass;
 
+    // todo: parse or generate ???
+    String signature;
+    byte[] annotationData;
+
     public ClassMember(MyClass myClass, MemberInfo info) {
         this.myClass = myClass;
         this.accessFlag = info.getAccessFlags();
         this.name = info.getName();
         this.descriptor = info.getDescriptor();
+        this.annotationData = info.getRuntimeVisibleAnnotationsAttributeData();
     }
 
     protected ClassMember() {
@@ -106,4 +111,18 @@ public class ClassMember {
     public boolean isSame(String name, String descriptor) {
         return name.equals(this.name) && descriptor.equals(this.getDescriptor());
     }
+
+    public int getAccessFlag() {
+        return accessFlag;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public byte[] getAnnotationData() {
+        return annotationData;
+    }
+
+
 }

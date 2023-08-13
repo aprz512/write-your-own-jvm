@@ -6,6 +6,9 @@ import write.your.own.jvm.runtimedata.LocalVariableTable;
 import write.your.own.jvm.runtimedata.PrimitiveType;
 import write.your.own.jvm.runtimedata.heap.constants.ConstantPool;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MyClass {
 
     private int accessFlag;
@@ -32,7 +35,11 @@ public class MyClass {
      */
     private boolean initStarted;
 
-    // class 也是一个 java/lang/Class 的一个对象
+    /**
+     * class 也是一个 java/lang/Class 的一个对象
+     * 储存 Java 里面的 Class 对象
+     * 如果是 String 类，表示的是 String.class，它是 Class 的一个实例
+     */
     private MyObject jClass;
 
     private String sourceFile;
@@ -179,6 +186,20 @@ public class MyClass {
 
     public MyField[] getFields() {
         return fields;
+    }
+
+    public List<MyField> getFields(boolean isPublic) {
+        List<MyField> result = new ArrayList<>();
+        for (MyField field : fields) {
+            if (isPublic) {
+                if (field.isPublic()) {
+                    result.add(field);
+                }
+            } else {
+                result.add(field);
+            }
+        }
+        return result;
     }
 
     public MyMethod[] getMethods() {
@@ -454,4 +475,26 @@ public class MyClass {
     }
 
 
+    public MyMethod getConstructor(String fieldConstructorDescriptor) {
+        return getMethod("<init>", fieldConstructorDescriptor, false);
+    }
+
+    public List<MyMethod> getConstructors(boolean publicOnly) {
+        List<MyMethod> result = new ArrayList<>();
+        if (!publicOnly) {
+            for (MyMethod method : methods) {
+                if (method.getName().equals("<init>")) {
+                    result.add(method);
+                }
+            }
+        } else {
+            for (MyMethod method : methods) {
+                if (method.getName().equals("<init>") && method.isPublic()) {
+                    result.add(method);
+                }
+            }
+        }
+
+        return result;
+    }
 }

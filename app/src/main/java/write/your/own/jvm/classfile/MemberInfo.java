@@ -3,6 +3,7 @@ package write.your.own.jvm.classfile;
 import write.your.own.jvm.classfile.attribute.AttributeInfo;
 import write.your.own.jvm.classfile.attribute.CodeAttribute;
 import write.your.own.jvm.classfile.attribute.ConstantValueAttribute;
+import write.your.own.jvm.classfile.attribute.UnParsedAttribute;
 import write.your.own.jvm.classfile.constantpool.ConstantPool;
 
 /**
@@ -82,6 +83,30 @@ public class MemberInfo {
         for (AttributeInfo info : attributes) {
             if (info instanceof ConstantValueAttribute) {
                 return (ConstantValueAttribute) info;
+            }
+        }
+
+        return null;
+    }
+
+    public byte[] getRuntimeVisibleAnnotationsAttributeData() {
+        return getUnParsedAttributeData("RuntimeVisibleAnnotations");
+    }
+
+    public byte[] getRuntimeVisibleParameterAnnotationsAttributeData() {
+        return getUnParsedAttributeData("RuntimeVisibleParameterAnnotationsAttribute");
+    }
+
+    public byte[] getAnnotationDefaultAttributeData() {
+        return getUnParsedAttributeData("AnnotationDefault");
+    }
+
+    private byte[] getUnParsedAttributeData(String name) {
+        for (AttributeInfo attribute : attributes) {
+            int nameIndex = attribute.getAttributeNameIndex();
+            String attrName = constantPool.getUtf8(nameIndex);
+            if (attrName.equals(name)) {
+                return ((UnParsedAttribute) attribute).getInfo();
             }
         }
 
