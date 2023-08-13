@@ -158,6 +158,7 @@ public class NClass {
                     stack.pushRef(field.getType().getJClass());
                     stack.pushInt(field.getAccessFlag());
                     stack.pushInt(field.getSlotId());
+                    // todo: 这里的 signature 是空的，直接使用类型加名字算了，反正 native 逻辑都是自己写的
                     stack.pushRef(MyString.create(field.getSignature(), classLoader));
                     stack.pushRef(ArrayObject.createByteArrayObject(classLoader, field.getAnnotationData()));
 
@@ -184,7 +185,7 @@ public class NClass {
 
         @Override
         public void invoke(StackFrame frame) {
-
+            LocalVariableTable localVariableTable = frame.getLocalVariableTable();
         }
     }
 

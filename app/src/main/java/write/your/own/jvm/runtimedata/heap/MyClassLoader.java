@@ -125,7 +125,7 @@ public class MyClassLoader {
     }
 
     private void allocAndInitStaticVars(MyClass myClass) {
-        myClass.setStaticVars(new LocalVariableTable(myClass.getStaticSlotCount()));
+        myClass.setStaticVars(new StaticFields(myClass.getStaticSlotCount()));
         MyField[] fields = myClass.getFields();
         for (MyField field : fields) {
             if (field.isStatic() && field.isFinal()) {
