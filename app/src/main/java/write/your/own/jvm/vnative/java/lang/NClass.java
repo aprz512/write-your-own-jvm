@@ -186,6 +186,77 @@ public class NClass {
         @Override
         public void invoke(StackFrame frame) {
             LocalVariableTable localVariableTable = frame.getLocalVariableTable();
+            MyObject name = localVariableTable.getRef(0);
+            int initialize = localVariableTable.getInt(1);
+            String jName = MyString.toString(name);
+            String jClassName = jName.replace(".", "/");
+            MyClassLoader classLoader = frame.getMyMethod().getMyClass().getClassLoader();
+            MyClass myClass = classLoader.loadClass(jClassName);
+
+            if (initialize==1 && !myClass.isInitStarted()) {
+                frame.revertPc();
+                ClassInit.initMyClass(myClass, frame.getThread());
+            } else  {
+                frame.getOperandStack().pushRef(myClass.getJClass());
+            }
+        }
+    }
+
+    /**
+     * // public native int getModifiers();
+     * // ()I
+     */
+    private static class GetModifiers implements NativeMethod {
+
+        @Override
+        public void invoke(StackFrame frame) {
+            // Class 对象
+            MyObject thisObj = frame.getLocalVariableTable().getRef(0);
+            // 真实的 myClass 对象
+            MyClass myClass = (MyClass) thisObj.getExtra();
+            frame.getOperandStack().pushInt(myClass.getAccessFlag());
+        }
+    }
+
+    /**
+     * // public native Class<? super T> getSuperclass();
+     * // ()Ljava/lang/Class;
+     */
+    private static class GetSuperclass implements NativeMethod {
+
+        @Override
+        public void invoke(StackFrame frame) {
+            // Class 对象
+            MyObject thisObj = frame.getLocalVariableTable().getRef(0);
+            // 真实的 myClass 对象
+            MyClass myClass = (MyClass) thisObj.getExtra();
+            MyClass superClass = myClass.getSuperClass();
+            if (superClass != null) {
+                frame.getOperandStack().pushRef(superClass.getJClass());
+            } else {
+                frame.getOperandStack().pushRef(null);
+            }
+        }
+    }
+
+    /**
+     * // public native boolean isAssignableFrom(Class<?> cls);
+     * // (Ljava/lang/Class;)Z
+     */
+    private static final class IsAssignableFrom implements NativeMethod {
+
+        @Override
+        public void invoke(StackFrame frame) {
+            // Class 对象
+            MyObject thisObj = frame.getLocalVariableTable().getRef(0);
+            MyObject cls = frame.getLocalVariableTable().getRef(1);
+
+            MyClass thisClass = (MyClass) thisObj.getExtra();
+            MyClass clsClass = (MyClass) cls.getExtra();
+
+            boolean assignableFrom = thisClass.isAssignableFrom(clsClass);
+
+            frame.getOperandStack().pushBoolean(assignableFrom);
         }
     }
 

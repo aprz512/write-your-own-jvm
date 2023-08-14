@@ -27,7 +27,7 @@ public class MyClass {
     /**
      * 刚好可以用来储存静态变量（static final 的）
      */
-    private LocalVariableTable staticVars;
+    private StaticFields staticVars;
 
     /**
      * 类的初始化逻辑控制
@@ -238,11 +238,11 @@ public class MyClass {
         this.staticSlotCount = staticSlotCount;
     }
 
-    public LocalVariableTable getStaticVars() {
+    public StaticFields getStaticVars() {
         return staticVars;
     }
 
-    public void setStaticVars(LocalVariableTable staticVars) {
+    public void setStaticVars(StaticFields staticVars) {
         this.staticVars = staticVars;
     }
 
