@@ -10,6 +10,7 @@ plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
     id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.0'
 }
 
 
@@ -27,9 +28,13 @@ dependencies {
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'commons-cli:commons-cli:1.4'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 application {
     // Define the main class for the application.
     mainClass = 'write.your.own.jvm.App'
 }
+//kotlin {
+//    jvmToolchain(11)
+//}
