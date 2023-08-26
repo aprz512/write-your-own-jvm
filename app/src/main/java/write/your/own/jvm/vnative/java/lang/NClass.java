@@ -193,10 +193,10 @@ public class NClass {
             MyClassLoader classLoader = frame.getMyMethod().getMyClass().getClassLoader();
             MyClass myClass = classLoader.loadClass(jClassName);
 
-            if (initialize==1 && !myClass.isInitStarted()) {
+            if (initialize == 1 && !myClass.isInitStarted()) {
                 frame.revertPc();
                 ClassInit.initMyClass(myClass, frame.getThread());
-            } else  {
+            } else {
                 frame.getOperandStack().pushRef(myClass.getJClass());
             }
         }

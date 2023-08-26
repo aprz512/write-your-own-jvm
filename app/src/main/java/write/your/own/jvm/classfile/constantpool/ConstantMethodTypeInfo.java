@@ -9,12 +9,21 @@ import write.your.own.jvm.classfile.ClassReader;
  * }
  */
 public class ConstantMethodTypeInfo implements ConstantInfo {
-    public ConstantMethodTypeInfo(ConstantPool constPool, ClassReader reader, int tag) {
-        int descriptor_index = reader.nextU2ToInt();
+
+    private final int descriptorIndex;
+    private final ConstantPool constantPool;
+
+    public ConstantMethodTypeInfo(ConstantPool constantPool, ClassReader reader, int tag) {
+        this.constantPool = constantPool;
+        descriptorIndex = reader.nextU2ToInt();
     }
 
     @Override
     public int getTag() {
         return 16;
+    }
+
+    public String getDescriptor() {
+        return constantPool.getUtf8(descriptorIndex);
     }
 }

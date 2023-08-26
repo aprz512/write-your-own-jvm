@@ -26,11 +26,12 @@ public class Interpreter {
             Instruction instruction = InstructionFactory.create(opCode, codeReader);
             stackFrame.setNextPc(codeReader.getPc());
 
+            instruction.execute(stackFrame);
+
             if (Cmd.Config.verboseInstFlag) {
                 logInstruction(instruction, stackFrame);
             }
 
-            instruction.execute(stackFrame);
 
         } while (!thread.isStackFrameEmpty());
     }
@@ -41,15 +42,16 @@ public class Interpreter {
         String methodName = myMethod.getName();
         int pc = stackFrame.getThread().getPc();
 
+        Log.d(thisClassName + "." + methodName + "() #" + pc + " -> " + instruction.getReadableName());
+
         if (Cmd.Config.verboseFrameFlag) {
             OperandStack operandStack = stackFrame.getOperandStack();
             operandStack.print();
             LocalVariableTable localVariableTable = stackFrame.getLocalVariableTable();
             localVariableTable.print();
-            Log.d("");
         }
 
-        Log.d(thisClassName + "." + methodName + "() #" + pc + " -> " + instruction.getReadableName());
+        Log.d("");
     }
 
 }

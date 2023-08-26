@@ -59,6 +59,9 @@ public class ConstantPool {
             case ConstantInfo.CONST_TAG_INTERFACE_METHOD_REF:
                 ConstantMemberRefInfo interfaceMethodRefInfo = (ConstantMemberRefInfo) info;
                 return new Constant(new InterfaceMethodRef(this, interfaceMethodRefInfo), tag);
+            case ConstantInfo.CONST_TAG_INVOKE_DYNAMIC:
+                ConstantInvokeDynamicInfo dynamicInfo = (ConstantInvokeDynamicInfo) info;
+                return new Constant(new InvokeDynamicConstant(dynamicInfo.getNameAndType(), dynamicInfo.getBootstrapMethodAttrIndex()), tag);
             default:
                 // todo
                 return new Constant(new Object(), tag);

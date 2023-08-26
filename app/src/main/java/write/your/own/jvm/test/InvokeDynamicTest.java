@@ -1,26 +1,21 @@
 package write.your.own.jvm.test;
 
-import java.lang.invoke.*;
-
-import static java.lang.invoke.MethodHandles.lookup;
-
 public class InvokeDynamicTest {
 
-    static {
-        System.setProperty("jdk.internal.lambda.dumpProxyClasses", "./DUMP_CLASS_FILEs");
-    }
+//    static {
+//        System.setProperty("jdk.internal.lambda.dumpProxyClasses", "./DUMP_CLASS_FILEs");
+//    }
 
     public static void main(String[] args) throws Throwable {
-//        INDY_BootstrapMethod().invokeExact("icyfenix");
-        long c = System.currentTimeMillis();
-        final long b = c;
-        Runnable runnable = () -> {
-            long x = 10;
-            long a = b + 20 * x;
-            throw new RuntimeException("Test");
+        PTest t = (a, b1) -> {
+            System.out.println(b1);
+            return "null";
         };
+        t.test(1, "te");
+    }
 
-        runnable.run();
+    interface PTest {
+        String test(int a, String b);
     }
 //
 //    public static void testMethod(String s) {

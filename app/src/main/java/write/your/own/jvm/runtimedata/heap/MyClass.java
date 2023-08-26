@@ -1,8 +1,9 @@
 package write.your.own.jvm.runtimedata.heap;
 
 import write.your.own.jvm.classfile.ClassFile;
+import write.your.own.jvm.classfile.attribute.AttributeInfo;
+import write.your.own.jvm.classfile.attribute.BootstrapMethodsAttribute;
 import write.your.own.jvm.instruction.reference.ClassNameHelper;
-import write.your.own.jvm.runtimedata.LocalVariableTable;
 import write.your.own.jvm.runtimedata.PrimitiveType;
 import write.your.own.jvm.runtimedata.heap.constants.ConstantPool;
 
@@ -44,6 +45,8 @@ public class MyClass {
 
     private String sourceFile;
 
+    private AttributeInfo[] attributes;
+
     public MyClass(ClassFile classFile) {
         accessFlag = classFile.getAccessFlag();
         thisClassName = classFile.getThisClassName();
@@ -53,9 +56,10 @@ public class MyClass {
         fields = newFields(classFile);
         methods = newMethods(classFile);
         this.sourceFile = classFile.getSourceFile();
+        this.attributes = classFile.getAttributes();
     }
 
-    private MyClass() {
+    protected MyClass() {
 
     }
 
@@ -85,6 +89,28 @@ public class MyClass {
                 loader.loadClass("java/lang/Cloneable"),
                 loader.loadClass("java/io/Serializable"),
         };
+        return myClass;
+    }
+
+    public static MyClass createLambdaClass(MyClass targetClass,
+                                            String className,
+                                            String lambdaInterfaceName,
+                                            String methodName,
+                                            int bootstrapIndex,
+                                            MyMethod method) {
+        MyClass myClass = new MyClass();
+        myClass.classLoader = targetClass.getClassLoader();
+        myClass.accessFlag = AccessFlag.ACC_PUBLIC;
+        myClass.thisClassName = "lambda$" + className + "$" + methodName + "$" + bootstrapIndex;
+
+        myClass.interfaces = new MyClass[1];
+        myClass.interfaces[0] = targetClass.getClassLoader().loadClass(lambdaInterfaceName);
+
+        myClass.methods = new MyMethod[1];
+        myClass.methods[0] = method.create(myClass, myClass.interfaces[0].getMethods()[0].getName());
+
+        myClass.constantPool = targetClass.getConstantPool();
+
         return myClass;
     }
 
@@ -474,7 +500,6 @@ public class MyClass {
         return PrimitiveType.primitiveTypes.containsKey(thisClassName);
     }
 
-
     public MyMethod getConstructor(String fieldConstructorDescriptor) {
         return getMethod("<init>", fieldConstructorDescriptor, false);
     }
@@ -496,5 +521,14 @@ public class MyClass {
         }
 
         return result;
+    }
+
+    public BootstrapMethodsAttribute getBootstrapMethodsAttribute() {
+        for (AttributeInfo info : attributes) {
+            if (info instanceof BootstrapMethodsAttribute) {
+                return (BootstrapMethodsAttribute) info;
+            }
+        }
+        return null;
     }
 }

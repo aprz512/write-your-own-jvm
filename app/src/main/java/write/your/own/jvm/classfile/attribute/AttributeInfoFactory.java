@@ -49,6 +49,8 @@ public class AttributeInfoFactory {
                 return new LocalVariableTableAttribute(attrNameIndex, attrLength, reader);
             case "Deprecated":
                 return new DeprecatedAttribute(attrNameIndex, attrLength);
+            case "BootstrapMethods":
+                return new BootstrapMethodsAttribute(attrNameIndex, attrLength, reader, constantPool);
             default:
                 return new UnParsedAttribute(attrNameIndex, attrLength, reader);
         }

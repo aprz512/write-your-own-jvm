@@ -10,13 +10,29 @@ import write.your.own.jvm.classfile.ClassReader;
  * }
  */
 public class ConstantInvokeDynamicInfo implements ConstantInfo {
+
+    private final int bootstrapMethodAttrIndex;
+    private final int nameAndTypeIndex;
+    private final ConstantPool constantPool;
+
     public ConstantInvokeDynamicInfo(ConstantPool constPool, ClassReader reader, int tag) {
-        int bootstrap_method_attr_index = reader.nextU2ToInt();
-        int name_and_type_index = reader.nextU2ToInt();
+        this.constantPool = constPool;
+        bootstrapMethodAttrIndex = reader.nextU2ToInt();
+        nameAndTypeIndex = reader.nextU2ToInt();
     }
 
     @Override
     public int getTag() {
         return 18;
     }
+
+    public int getBootstrapMethodAttrIndex() {
+        return bootstrapMethodAttrIndex;
+    }
+
+    public String[] getNameAndType() {
+        return constantPool.getNameAndType(nameAndTypeIndex);
+    }
+
+
 }

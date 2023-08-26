@@ -393,8 +393,8 @@ public class InstructionFactory {
                 return new InvokeStatic(reader);
             case 0xb9:
                 return new InvokeInterface(reader);
-            // case 0xba:
-            // 	return &INVOKE_DYNAMIC{}
+            case 0xba:
+                return new InvokeDynamic(reader);
             case 0xbb:
                 return new New(reader);
             case 0xbc:

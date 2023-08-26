@@ -148,4 +148,29 @@ public class MyMethod extends ClassMember {
 
         return -1;
     }
+
+    /**
+     * for simple reason: only copy some member to avoid crash
+     * created method should not change member value!!!
+     */
+    public MyMethod create(MyClass hostClass, String methodName) {
+        MyMethod copy = new MyMethod();
+        copy.myClass = hostClass;
+        copy.name = methodName;
+        copy.descriptor = this.descriptor;
+        copy.code = this.code;
+        copy.accessFlag = AccessFlag.ACC_PUBLIC;
+
+        copy.parameterAnnotationData = this.parameterAnnotationData;
+        copy.annotationDefaultData = this.annotationDefaultData;
+        copy.maxStack = this.maxStack;
+        copy.maxLocals = this.maxLocals;
+        copy.argsSlotCount = this.argsSlotCount;
+        copy.exceptionTable = this.exceptionTable;
+        copy.lineNumberTable = this.lineNumberTable;
+        copy.signature = this.signature;
+        copy.annotationData = this.annotationData;
+
+        return copy;
+    }
 }
