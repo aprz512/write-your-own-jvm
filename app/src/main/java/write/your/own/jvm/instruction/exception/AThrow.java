@@ -63,6 +63,6 @@ public class AThrow implements Instruction {
 
     @Override
     public String getReadableName() {
-        return null;
+        return "athrow";
     }
 }
