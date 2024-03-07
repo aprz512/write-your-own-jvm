@@ -3,6 +3,9 @@ implement a simple jvm with java
 
 ## 项目文档
 
+### 博客版
+- [合集](https://www.lyldalek.top/article/jvm)
+
 ### 公众号版
 - [写自己的JVM（0x1）- 加载class文件](https://mp.weixin.qq.com/s/sUrn3GisPzanGHI3Vyr3jg)
 - [写自己的JVM（0x2）- 解析class文件](https://mp.weixin.qq.com/s/4TE_iai-1-oTDXdNxXBnKg)
@@ -28,3 +31,6 @@ notion 版的进度要快，因为发公众号图要一张一张搞，调格式�
 - [写自己的JVM（0x8）- 数组与String](https://lyldalek.notion.site/JVM-0x8-8b1e5b85b22a4bd0882712e76b5651db?pvs=4)
 - [写自己的JVM（0x9）- native方法与反射](https://lyldalek.notion.site/JVM-0x9-12410c1df5ce4e6285720a1c588e99ce?pvs=4)
 - [写自己的JVM（0xA）- 异常处理](https://lyldalek.notion.site/JVM-0xA-1d1c21d8feb04de4b81407c7aa249490?pvs=4)
+
+### 为啥突然多了这么多 star ???
+
